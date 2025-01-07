@@ -4,13 +4,8 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="LtAmpDotNet.Lib">
-      <HintPath>Library\LtAmpDotNet.Lib\bin\Debug\net8.0\LtAmpDotNet.Lib.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 </Project>
