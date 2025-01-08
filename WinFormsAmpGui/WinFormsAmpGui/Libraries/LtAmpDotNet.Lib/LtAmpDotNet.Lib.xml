@@ -1,0 +1,2842 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LtAmpDotNet.Lib</name>
+    </assembly>
+    <members>
+        <member name="T:LtAmpDotNet.Lib.Device.IAmpDevice">
+            <summary>Represents a physical amplifier device to connect to</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Device.IAmpDevice.IsOpen">
+            <summary>State of the amp connection</summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.Device.IAmpDevice.DeviceOpened">
+            <summary>Fired when the amplifier opens and connects</summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.Device.IAmpDevice.DeviceClosed">
+            <summary>Fired when the connection to the amplifier is closed</summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.Device.IAmpDevice.MessageReceived">
+            <summary>Fired when a message is received from the amplifier</summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.Device.IAmpDevice.MessageSent">
+            <summary>Fired when a message is sent to the amplifier</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Device.IAmpDevice.Open">
+            <summary>Opens a connection to the amplifier</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Device.IAmpDevice.Open(System.Boolean)">
+            <summary>Opens a connection to the amplifier</summary>
+            <param name="continueTry">Try to connect repeatedly</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Device.IAmpDevice.Close">
+            <summary>Closes the amplifier connection</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Device.IAmpDevice.Write(LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT)">
+            <summary>Sends a message to the amplifier</summary>
+            <param name="message">A FenderMessageLT protobuf message to be sent</param>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Device.UsbAmpDevice">
+            <summary>
+            Represents a USB connection to the amplifier
+            </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Device.UsbAmpDevice.VENDOR_ID">
+            <summary>Default vendor ID to connect to</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Device.UsbAmpDevice.PRODUCT_ID">
+            <summary>Default product ID to connect to</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Device.UsbAmpDevice.IsOpen">
+            <summary>State of the connection to the amplifier</summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.Device.UsbAmpDevice.DeviceOpened">
+            <summary>Triggered when the device connection is opened and successful</summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.Device.UsbAmpDevice.DeviceClosed">
+            <summary>Triggered when the device connection closes</summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.Device.UsbAmpDevice.MessageSent">
+            <summary>Triggered when a message is sent to the amp</summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.Device.UsbAmpDevice.MessageReceived">
+            <summary>Triggered when a message is received from the amp</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Device.UsbAmpDevice._device">
+            <summary>Holds the HidDevice object underlying the connection</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Device.UsbAmpDevice._stream">
+            <summary>Holds the HidStream object underlying the connection</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Device.UsbAmpDevice._inputReceiver">
+            <summary>Input receiver for the incoming data</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Device.UsbAmpDevice.heartbeatTimer">
+            <summary>Timer for the heartbeat</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Device.UsbAmpDevice.reportLength">
+            <summary>Data length for reports communicated from the amplifier</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Device.UsbAmpDevice._dataBuffer">
+            <summary>Buffer to store the data as it comes in to string together multi-report messages</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Device.UsbAmpDevice._disposedValue">
+            <summary>for disposing</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Device.UsbAmpDevice.#ctor">
+            <summary>Default constructor; will use the first available device connected with the default VID/PID</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Device.UsbAmpDevice.#ctor(HidSharp.HidDevice)">
+            <summary>Uses the HidDevice specified</summary>
+            <param name="device"></param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Device.UsbAmpDevice.Open">
+            <summary>Opens a connection to the amplifier</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Device.UsbAmpDevice.Open(System.Boolean)">
+            <summary>Opens a connection to the amplifier</summary>
+            <param name="continueTry">True to wait for the device to be enumerated on the computer, or false to fail after one try</param>
+            <exception cref="T:System.IO.IOException">Thrown when there is a connection issue with the device</exception>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Device.UsbAmpDevice.Close">
+            <summary>Closes the connection to the amplifier</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Device.UsbAmpDevice.Write(LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT)">
+            <summary>Sends a message to the amp</summary>
+            <param name="message">The message to send to the amp</param>
+            <exception cref="T:System.Exception">Thrown when the device is not connected</exception>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Device.UsbAmpDevice.Dispose">
+            <summary>Disposes underlying objects</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Device.UsbAmpDevice.Dispose(System.Boolean)">
+            <summary>Disposes underlying objects</summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Device.UsbAmpDevice.OnDeviceOpened(System.EventArgs)">
+            <summary>Triggers the DeviceOpened event</summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Device.UsbAmpDevice.OnDeviceClosed(System.EventArgs)">
+            <summary>Triggers the DeviceClosed event</summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Device.UsbAmpDevice.OnMessageReceived(LtAmpDotNet.Lib.Events.FenderMessageEventArgs)">
+            <summary>Triggers the MessageReceived event</summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Device.UsbAmpDevice.OnMessageSent(LtAmpDotNet.Lib.Events.FenderMessageEventArgs)">
+            <summary>Triggers the MessageSent event</summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Device.UsbAmpDevice.UsbDevices_Changed(System.Object,HidSharp.DeviceListChangedEventArgs)">
+            <summary>Triggered on change of USB devices connected; used to auto connect.</summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Device.UsbAmpDevice.InputReceiver_Received(System.Object,System.EventArgs)">
+            <summary>Parses the data recevied from the input receiver, and triggers a MessageReceived event with the parsed FenderMessageLT message</summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Device.UsbAmpDevice.HeartbeatTimer_Elapsed(System.Object,System.Timers.ElapsedEventArgs)">
+            <summary>
+            Ticks with the heartbeatTimer to send a heartbeat message to the amp
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Device.UsbAmpDevice.Stream_DeviceClosed(System.Object,System.EventArgs)">
+            <summary>
+            Triggered when the underlying data stream closes
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Device.UsbHidMessageTag">
+            <summary>
+            The first byte of a USB data packet from the amp
+            </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Device.UsbHidMessageTag.Start">
+            <summary>First packet in a series</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Device.UsbHidMessageTag.Continue">
+            <summary>A message in a series of data packets</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Device.UsbHidMessageTag.End">
+            <summary>Last or only packet in a series</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Events.FenderMessageEventArgs">
+            <summary>EventArgs for message events from the Amp</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Events.FenderMessageEventArgs.MessageType">
+            <summary>The type of message contained</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Events.FenderMessageEventArgs.Message">
+            <summary>The message</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Events.FenderMessageEventArgs.#ctor">
+            <summary>Creates a new instance of the class</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Events.FenderMessageEventArgs.#ctor(LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT)">
+            <summary>Creates a new instance of the class with the message as the body</summary>
+            <param name="message">The message to include as the body of the event args</param>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.LtAmplifier">
+            <summary>
+            Represents an amplifier device
+            </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.LtAmplifier.NUM_OF_PRESETS">
+            <summary>number of presets available in the amplifier</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.LtAmplifier.DspUnitDefinitions">
+            <summary>definitions of all parts of the presets and DspUnits in the amplifier</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.LtAmplifier.IsOpen">
+            <summary>Current state of the amp connection</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.LtAmplifier.ErrorType">
+            <summary>Contains an error type when the amp send an UnsupportedMessageStatus message</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.#ctor(LtAmpDotNet.Lib.Device.IAmpDevice)">
+            <summary>Creates an instance of LtAmplifier with a specific devices</summary>
+            <param name="device">The device to connect with</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.Open(System.Boolean)">
+            <summary>Open the connection to the amp</summary>
+            <param name="continueTry">True to continue trying to connect until successful</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.OpenAsync(System.Boolean)">
+            <summary>Asynchronously open the connection to the amp</summary>
+            <param name="continueTry">True to continue trying to connect until successful</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.Close">
+            <summary>Closes the amp connection</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.Dispose(System.Boolean)">
+            <summary></summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.Dispose">
+            <summary></summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SendMessage(LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT)">
+            <summary>Sends a specific message to the amp</summary>
+            <param name="message">Message to send</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SendMessageAsync(LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT,LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.TypeOneofCase)">
+            <summary>Asynchronously sends a specific message to the amp</summary>
+            <param name="message">Message to send</param>
+            <param name="responseMessage">The message to wait for</param>
+            <returns>Resposne message from the amp</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.InitializeConnection(System.Boolean)">
+            <summary>Initializes the amplifier connection after opening</summary>
+            <param name="getData"></param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.IAmpDevice_Opened(System.Object,System.EventArgs)">
+            <summary>Triggered when the device is opened</summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.IAmpDevice_Closed(System.Object,System.EventArgs)">
+            <summary>Triggered when the device is closed</summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.IAmpDevice_OnMessageSent(System.Object,LtAmpDotNet.Lib.Events.FenderMessageEventArgs)">
+            <summary>Internal trigger for data sent to the amp</summary>
+            <param name="sender"></param>
+            <param name="eventArgs"></param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.IAmpDevice_OnMessageReceived(System.Object,LtAmpDotNet.Lib.Events.FenderMessageEventArgs)">
+            <summary>Internal trigger for data received from the amp</summary>
+            <param name="sender"></param>
+            <param name="eventArgs"></param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SetAuditionPreset(LtAmpDotNet.Lib.Model.Preset.Preset)">
+            <summary>
+            Sets the audition preset
+            </summary>
+            <param name="preset">The preset to audition</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetAuditionState">
+            <summary>
+            Gets the current audition state
+            </summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.ExitAuditionPreset(System.Boolean)">
+            <summary>
+            Exits audition mode
+            </summary>
+            <param name="exitStatus"></param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetCurrentPreset">
+            <summary>Gets the current preset</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetCurrentPresetAsync">
+            <summary>Asynchronously gets the current preset</summary>
+            <returns>The current preset</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SetCurrentPreset(LtAmpDotNet.Lib.Model.Preset.Preset)">
+            <summary>Sets the current preset</summary>
+            <param name="preset">The preset to set</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SetCurrentPresetAsync(LtAmpDotNet.Lib.Model.Preset.Preset)">
+            <summary>Asynchronously sets the current preset</summary>
+            <param name="preset">The preset to set</param>
+            <returns>the current preset status</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.LoadPreset(System.Int32)">
+            <summary>Changes to the specified preset</summary>
+            <param name="slotIndex">The bank index to switch to</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.LoadPresetAsync(System.Int32)">
+            <summary>Asynchronously changes to the specified preset</summary>
+            <param name="slotIndex">The bank index to switch to</param>
+            <returns>The new current loaded preset</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.ShiftPreset(System.Int32,System.Int32)">
+            <summary>Moves the specified preset to a new position, and shifts the other presets</summary>
+            <param name="from">The preset to shift</param>
+            <param name="to">The location to shift it to</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.ShiftPresetAsync(System.Int32,System.Int32)">
+            <summary>Asynchronously moves the specified preset to a new position, and shifts the other presets</summary>
+            <param name="from">The preset to shift</param>
+            <param name="to">The location to shift it to</param>
+            <returns>Status message confirming the shift</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SwapPreset(System.Int32,System.Int32)">
+            <summary>Swaps two preset locations</summary>
+            <param name="indexA">First index to swap</param>
+            <param name="indexB">Second index to swap</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SwapPresetAsync(System.Int32,System.Int32)">
+            <summary>Asynchronously swaps two preset locations</summary>
+            <param name="indexA">First index to swap</param>
+            <param name="indexB">Second index to swap</param>
+            <returns>Status message confirming the swap</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetPreset(System.Int32)">
+            <summary>Gets the preset in the specified bank</summary>
+            <param name="slotIndex">The bank to retrieve</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetPresetAsync(System.Int32)">
+            <summary>Asynchronously gets the preset in the specified bank</summary>
+            <param name="slotIndex">The bank to retrieve</param>
+            <returns>The preset in the requested bank</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SaveCurrentPreset">
+            <summary>Saves the current preset in the current bank.</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SaveCurrentPresetAsync">
+            <summary>Asynchronously saves the current preset in the current bank.</summary>
+            <returns>Status message confirming the operation</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SaveCurrentPresetTo(System.Int32,System.String)">
+            <summary>Saves the current preset to the specified bank with the specified name</summary>
+            <param name="slotIndex"></param>
+            <param name="name"></param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SaveCurrentPresetToAsync(System.Int32,System.String)">
+            <summary>Asynchronously saves the current preset to the specified bank with the specified name</summary>
+            <param name="slotIndex"></param>
+            <param name="name"></param>
+            <returns>Status message confirming the operation</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SavePresetAs(System.Int32,LtAmpDotNet.Lib.Model.Preset.Preset,System.Boolean)">
+            <summary>Saves a preset to a specified bank</summary>
+            <param name="slotIndex">The bank to save to</param>
+            <param name="preset">The preset to save</param>
+            <param name="loadPreset">Unknown; the official application always sends true</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SavePresetAsAsync(System.Int32,LtAmpDotNet.Lib.Model.Preset.Preset,System.Boolean)">
+            <summary>Saves a preset to a specified bank</summary>
+            <param name="slotIndex">The bank to save to</param>
+            <param name="preset">The preset to save</param>
+            <param name="loadPreset">Unknown; the official application always sends true</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.RenamePresetAt(System.Int32,System.String)">
+            <summary>Renames the preset at the specified bank</summary>
+            <param name="slotIndex">The bank to rename</param>
+            <param name="name">The new preset name</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.RenamePresetAtAsync(System.Int32,System.String)">
+            <summary>Asynchronously renames the preset at the specified bank</summary>
+            <param name="slotIndex">The bank to rename</param>
+            <param name="name">The new preset name</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.ClearPreset(System.Int32,System.Boolean)">
+            <summary>Clears the preset in the specified bank</summary>
+            <param name="slotIndex">The bank to clear</param>
+            <param name="isLoadPreset">Unknown; the official application always sends true</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.ClearPresetAsync(System.Int32,System.Boolean)">
+            <summary>Asynchronously clears the preset in the specified bank</summary>
+            <param name="slotIndex">The bank to clear</param>
+            <param name="isLoadPreset">Unknown; the official application always sends true</param>
+            <returns>A status message confirming the operation</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetConnectionStatus">
+            <summary>Gets the current connection status as reported by the amp</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetConnectionStatusAsync">
+            <summary>Asynchronously gets the current connection status as reported by the amp </summary>
+            <returns>A message with the connection status</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SetDspUnitParameter(LtAmpDotNet.Lib.Model.Preset.NodeIdType,LtAmpDotNet.Lib.Model.Preset.DspUnitParameter)">
+            <summary>Sets a single parameter in a DspUnit</summary>
+            <param name="nodeId">The unit type to set</param>
+            <param name="parameter">The parameter to set</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SetDspUnitParameterAsync(LtAmpDotNet.Lib.Model.Preset.NodeIdType,LtAmpDotNet.Lib.Model.Preset.DspUnitParameter)">
+            <summary>Asynchronously sets a single parameter in a DspUnit</summary>
+            <param name="nodeId">The unit type to set</param>
+            <param name="parameter">The parameter to set</param>
+            <returns>A status message confirming the operation</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.ReplaceNode(LtAmpDotNet.Lib.Model.Preset.NodeIdType,System.String)">
+            <summary>Replaces a node in the current preset</summary>
+            <param name="nodeId"></param>
+            <param name="fenderId"></param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.ReplaceNodeAsync(LtAmpDotNet.Lib.Model.Preset.NodeIdType,System.String)">
+            <summary>Asynchronously replaces a node in the current preset</summary>
+            <param name="nodeId"></param>
+            <param name="fenderId"></param>
+            <returns>A status message confirming the operation</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SetModalState(LtAmpDotNet.Lib.Models.Protobuf.ModalContext)">
+            <summary>Sets the modal state of the amp</summary>
+            <param name="modalContext">The state to set</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SetModalStateAsync(LtAmpDotNet.Lib.Models.Protobuf.ModalContext)">
+            <summary>Asynchronously sets the modal state of the amp</summary>
+            <param name="modalContext">The state to set</param>
+            <returns>A message confirming the operation</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetFirmwareVersion">
+            <summary>Requests the current firmware version of the amp</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetFirmwareVersionAsync">
+            <summary>Asynchronously requests the current firmware version of the amp</summary>
+            <returns>A message containing the current firmware version</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetMemoryUsage">
+            <summary>Gets the memory usage of the amp</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetMemoryUsageAsync">
+            <summary>Asynchronously gets the memory usage of the amp</summary>
+            <returns>A message with the current memory usage</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetProcessorUtilization">
+            <summary>Requestes the current processor utilization from the amp</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetProcessorUtilizationAsync">
+            <summary>Asynchronously requestes the current processor utilization from the amp</summary>
+            <returns>A message with the current processor utilization</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetProductIdentification">
+            <summary>Requests the product information from the amp</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetProductIdentificationAsync">
+            <summary>Asynchronously requests the product information from the amp</summary>
+            <returns>A message with the prodcut information</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.Heartbeat">
+            <summary>Sends a heartbeat message to keep the connection with the amp alive</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetQASlots">
+            <summary>Requests the current footswitch settings from the amp</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetQASlotsAsync">
+            <summary>Asynchronously requests the current footswitch settings from the amp</summary>
+            <returns>A message containing the current footswitch settings</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SetQASlots(System.UInt32[])">
+            <summary>Sets the footswitch settings</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SetQASlotsAsync(System.UInt32[])">
+            <summary>Asynchronously sets the footswitch settings</summary>
+            <returns>A message containing the new footswitch settings</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetUsbGain">
+            <summary>Requests the USB gain on the amp</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetUsbGainAsync">
+            <summary>Asynchronously gets the USB gain on the amp</summary>
+            <returns>A message with the current gain setting</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SetUsbGain(System.Single)">
+            <summary>Sets the USB gain on the amp</summary>
+            <param name="value">Gain (in dB)</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SetUsbGainAsync(System.Single)">
+            <summary>Asynchronously sets the USB gain on the amp</summary>
+            <param name="value">Gain (in dB)</param>
+            <returns>A message confirming the operation</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetAllPresets">
+            <summary>Retrieves all presets from the amp</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.GetAllPresetsAsync">
+            <summary>Asynchronously retrieves all presets from the amp</summary>
+            <returns>A list of preset messages</returns>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SetTuner(System.Boolean)">
+            <summary>Sets the tuner on or off</summary>
+            <param name="on_off">True for on; false for off</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SetTunerAsync(System.Boolean)">
+            <summary>Asynchronously sets the tuner on or off</summary>
+            <param name="on_off">True for on; false for off</param>
+            <returns>A message confirming the operation</returns>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.AmplifierConnected">
+            <summary>Triggered when the amplifer connection has been initialized</summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.AmplifierDisconnected">
+            <summary>Triggered when the amplifier disconnects</summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.MessageSent">
+            <summary>Triggered when a message is sent to the amp</summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.MessageReceived">
+            <summary>Triggered when any valid message is received from the amplifier</summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.UnknownMessageReceived">
+            <summary>Triggered when the amp responds with an error message</summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.ActiveDisplayMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.AuditionPresetStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.AuditionStateStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.ClearPresetStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.ConnectionStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.CurrentDisplayedPresetIndexStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.CurrentLoadedPresetIndexBypassStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.CurrentLoadedPresetIndexStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.CurrentPresetStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.DspUnitParameterStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.ExitAuditionPresetStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.FirmwareVersionStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.FrameBufferMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.HeartbeatMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.IndexButtonMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.IndexEncoderMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.IndexPotMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.LT4FootswitchModeStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.LineOutGainStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.LoadPreset_TestSuiteMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.LoopbackTestMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.MemoryUsageStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.ModalStatusMessageMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.NewPresetSavedStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.PresetEditedStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.PresetJSONMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.PresetSavedStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.ProcessorUtilizationMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.ProductIdentificationStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.QASlotsStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.ReplaceNodeStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.SetDspUnitParameterStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.ShiftPresetStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.SwapPresetStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.UnsupportedMessageStatusReceived">
+            <summary></summary>
+        </member>
+        <member name="E:LtAmpDotNet.Lib.LtAmplifier.UsbGainStatusMessageReceived">
+            <summary></summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.LtAmplifier.MessageEventHandlers">
+            <summary>Contains event handlers to trigger message events</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.SetupMessageEventHandlers">
+            <summary>Initializes the collection of MessageEventHandlers</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.WaitForEvent(System.Action,System.Action{System.EventHandler},System.Int32)">
+            <summary>Executes the command, and waits for the event to respond before continuing.</summary>
+            <param name="action">the action to run</param>
+            <param name="eventHandler">the event to wait for</param>
+            <param name="waitTime">timeout (in seconds)</param>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.LtAmplifier.WaitForEvent``1(System.Action,System.Action{System.EventHandler{``0}},System.Int32)">
+            <summary>Executes the command, and waits for the event to respond before continuing.</summary>
+            <param name="action">the action to run</param>
+            <param name="eventHandler">the event to wait for</param>
+            <param name="waitTime">timeout (in seconds)</param>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Model.Preset.AudioGraph">
+            <summary>Represents the audio setup of the preset</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Model.Preset.AudioGraph.Connections">
+            <summary>The connections among the parts of the preset</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Model.Preset.AudioGraph.Nodes">
+            <summary>The DSP units and amp for the preset</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Model.Preset.Connection">
+            <summary>A connection among the parts of the preset</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Model.Preset.Connection.Input">
+            <summary>The input part of the connection</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Model.Preset.Connection.Output">
+            <summary>The output part of the connection</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Model.Preset.InputOutput">
+            <summary>An object in a connection</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Model.Preset.Node.Create(LtAmpDotNet.Lib.Model.Preset.NodeIdType)">
+            <summary>Creates a new node for the specified node type</summary>
+            <param name="nodeId"></param>
+            <returns>A new node object for the specified type</returns>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Model.Preset.NodeIdType">
+            <summary>Represents the type of node (amp, stomp, mod, delay, or reverb)</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Model.Profile.ControlType">
+            <summary>The type of data used by the parameter</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Model.Profile.ControlType.continuous">
+            <summary>A control with a continuous range (a number)</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Model.Profile.ControlType.list">
+            <summary>A control with distinct values</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Model.Profile.ControlType.listBool">
+            <summary>An on/off control</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ActiveDisplayReflection">
+            <summary>Holder for reflection information generated from ActiveDisplay.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ActiveDisplayReflection.Descriptor">
+            <summary>File descriptor for ActiveDisplay.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ActiveDisplay.PageNameFieldNumber">
+            <summary>Field number for the "pageName" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ActiveDisplay.HasPageName">
+            <summary>Gets whether the "pageName" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ActiveDisplay.ClearPageName">
+            <summary>Clears the value of the "pageName" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.AudioStatusReflection">
+            <summary>Holder for reflection information generated from AudioStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.AudioStatusReflection.Descriptor">
+            <summary>File descriptor for AudioStatus.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.PresetEditedStatus">
+             <summary>
+            
+             Editing status of the current preset
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.PresetEditedStatus.PresetEditedFieldNumber">
+            <summary>Field number for the "presetEdited" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.PresetEditedStatus.PresetEdited">
+            <summary>
+            True if the preset is in editing state
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.PresetEditedStatus.HasPresetEdited">
+            <summary>Gets whether the "presetEdited" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.PresetEditedStatus.ClearPresetEdited">
+            <summary>Clears the value of the "presetEdited" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.AuditionPresetReflection">
+            <summary>Holder for reflection information generated from AuditionPreset.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.AuditionPresetReflection.Descriptor">
+            <summary>File descriptor for AuditionPreset.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.AuditionPreset">
+             <summary>
+            
+             Sends a preset to the amp to be "auditioned"
+            
+             response: AuditionPresetStatus message containing the preset data loaded to the amp
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.AuditionPreset.PresetDataFieldNumber">
+            <summary>Field number for the "presetData" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.AuditionPreset.PresetData">
+            <summary>
+            JSON string conaining the preset to be auditioned
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.AuditionPreset.HasPresetData">
+            <summary>Gets whether the "presetData" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.AuditionPreset.ClearPresetData">
+            <summary>Clears the value of the "presetData" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.AuditionPresetStatusReflection">
+            <summary>Holder for reflection information generated from AuditionPresetStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.AuditionPresetStatusReflection.Descriptor">
+            <summary>File descriptor for AuditionPresetStatus.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.AuditionPresetStatus">
+             <summary>
+            
+             Response to an AuditionPreset message
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.AuditionPresetStatus.PresetDataFieldNumber">
+            <summary>Field number for the "presetData" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.AuditionPresetStatus.PresetData">
+            <summary>
+            JSON data conatining preset data being auditioned
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.AuditionPresetStatus.HasPresetData">
+            <summary>Gets whether the "presetData" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.AuditionPresetStatus.ClearPresetData">
+            <summary>Clears the value of the "presetData" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.AuditionStateRequestReflection">
+            <summary>Holder for reflection information generated from AuditionStateRequest.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.AuditionStateRequestReflection.Descriptor">
+            <summary>File descriptor for AuditionStateRequest.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.AuditionStateRequest">
+             <summary>
+            
+             Queries the amp for its audition state
+            
+             response: AuditionStateStatus message
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.AuditionStateRequest.RequestFieldNumber">
+            <summary>Field number for the "request" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.AuditionStateRequest.Request">
+            <summary>
+            Always true on requests
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.AuditionStateRequest.HasRequest">
+            <summary>Gets whether the "request" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.AuditionStateRequest.ClearRequest">
+            <summary>Clears the value of the "request" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.AuditionStateStatusReflection">
+            <summary>Holder for reflection information generated from AuditionStateStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.AuditionStateStatusReflection.Descriptor">
+            <summary>File descriptor for AuditionStateStatus.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.AuditionStateStatus">
+             <summary>
+            
+             The current audition state of the amp
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.AuditionStateStatus.IsAuditioningFieldNumber">
+            <summary>Field number for the "isAuditioning" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.AuditionStateStatus.IsAuditioning">
+            <summary>
+            True if the amp is in audition mode
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.AuditionStateStatus.HasIsAuditioning">
+            <summary>Gets whether the "isAuditioning" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.AuditionStateStatus.ClearIsAuditioning">
+            <summary>Clears the value of the "isAuditioning" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ClearPresetReflection">
+            <summary>Holder for reflection information generated from ClearPreset.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ClearPresetReflection.Descriptor">
+            <summary>File descriptor for ClearPreset.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ClearPreset">
+             <summary>
+            
+             Clears a preset in the amp
+            
+             response: ClearPresetStatus message
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ClearPreset.SlotIndexFieldNumber">
+            <summary>Field number for the "slotIndex" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ClearPreset.SlotIndex">
+            <summary>
+            Preset bank to clear
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ClearPreset.HasSlotIndex">
+            <summary>Gets whether the "slotIndex" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ClearPreset.ClearSlotIndex">
+            <summary>Clears the value of the "slotIndex" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ClearPreset.IsLoadPresetFieldNumber">
+            <summary>Field number for the "isLoadPreset" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ClearPreset.IsLoadPreset">
+            <summary>
+            ??? the Tone amp sets this to true when clearing the preset
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ClearPreset.HasIsLoadPreset">
+            <summary>Gets whether the "isLoadPreset" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ClearPreset.ClearIsLoadPreset">
+            <summary>Clears the value of the "isLoadPreset" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ClearPresetStatusReflection">
+            <summary>Holder for reflection information generated from ClearPresetStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ClearPresetStatusReflection.Descriptor">
+            <summary>File descriptor for ClearPresetStatus.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ClearPresetStatus">
+             <summary>
+            
+             Response to a ClearPreset message with the slot index cleared
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ClearPresetStatus.SlotIndexFieldNumber">
+            <summary>Field number for the "slotIndex" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ClearPresetStatus.SlotIndex">
+            <summary>
+            slot index cleared
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ClearPresetStatus.HasSlotIndex">
+            <summary>Gets whether the "slotIndex" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ClearPresetStatus.ClearSlotIndex">
+            <summary>Clears the value of the "slotIndex" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ConnectionStatusReflection">
+            <summary>Holder for reflection information generated from ConnectionStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ConnectionStatusReflection.Descriptor">
+            <summary>File descriptor for ConnectionStatus.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ConnectionStatus">
+             <summary>
+            
+             The current connection state of the amp
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ConnectionStatus.IsConnectedFieldNumber">
+            <summary>Field number for the "isConnected" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ConnectionStatus.IsConnected">
+            <summary>
+            True if the amp is connected
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ConnectionStatus.HasIsConnected">
+            <summary>Gets whether the "isConnected" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ConnectionStatus.ClearIsConnected">
+            <summary>Clears the value of the "isConnected" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ConnectionStatusRequestReflection">
+            <summary>Holder for reflection information generated from ConnectionStatusRequest.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ConnectionStatusRequestReflection.Descriptor">
+            <summary>File descriptor for ConnectionStatusRequest.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ConnectionStatusRequest">
+             <summary>
+            
+             Queries the connection status of the amp
+            
+             response: ConnectionStatus message
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ConnectionStatusRequest.RequestFieldNumber">
+            <summary>Field number for the "request" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ConnectionStatusRequest.Request">
+            <summary>
+            Always true on requests
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ConnectionStatusRequest.HasRequest">
+            <summary>Gets whether the "request" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ConnectionStatusRequest.ClearRequest">
+            <summary>Clears the value of the "request" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.CurrentDisplayedPresetIndexStatusReflection">
+            <summary>Holder for reflection information generated from CurrentDisplayedPresetIndexStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentDisplayedPresetIndexStatusReflection.Descriptor">
+            <summary>File descriptor for CurrentDisplayedPresetIndexStatus.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.CurrentDisplayedPresetIndexStatus">
+             <summary>
+            
+             The current preset displayed on the amp. Sent when the preset is changed at the amp
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.CurrentDisplayedPresetIndexStatus.CurrentDisplayedPresetIndexFieldNumber">
+            <summary>Field number for the "currentDisplayedPresetIndex" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentDisplayedPresetIndexStatus.CurrentDisplayedPresetIndex">
+            <summary>
+            The current preset bank number
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentDisplayedPresetIndexStatus.HasCurrentDisplayedPresetIndex">
+            <summary>Gets whether the "currentDisplayedPresetIndex" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.CurrentDisplayedPresetIndexStatus.ClearCurrentDisplayedPresetIndex">
+            <summary>Clears the value of the "currentDisplayedPresetIndex" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.CurrentLoadedPresetIndexBypassStatusReflection">
+            <summary>Holder for reflection information generated from CurrentLoadedPresetIndexBypassStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentLoadedPresetIndexBypassStatusReflection.Descriptor">
+            <summary>File descriptor for CurrentLoadedPresetIndexBypassStatus.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.CurrentLoadedPresetIndexBypassStatus.CurrentLoadedPresetIndexFieldNumber">
+            <summary>Field number for the "currentLoadedPresetIndex" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentLoadedPresetIndexBypassStatus.HasCurrentLoadedPresetIndex">
+            <summary>Gets whether the "currentLoadedPresetIndex" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.CurrentLoadedPresetIndexBypassStatus.ClearCurrentLoadedPresetIndex">
+            <summary>Clears the value of the "currentLoadedPresetIndex" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.CurrentLoadedPresetIndexBypassStatus.BypassStatusFieldNumber">
+            <summary>Field number for the "bypassStatus" field.</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.CurrentLoadedPresetIndexStatusReflection">
+            <summary>Holder for reflection information generated from CurrentLoadedPresetIndexStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentLoadedPresetIndexStatusReflection.Descriptor">
+            <summary>File descriptor for CurrentLoadedPresetIndexStatus.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.CurrentLoadedPresetIndexStatus">
+             <summary>
+            
+             The current preset displayed on the amp. Sent when the preset is changed at the amp or via a LoadPreset message
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.CurrentLoadedPresetIndexStatus.CurrentLoadedPresetIndexFieldNumber">
+            <summary>Field number for the "currentLoadedPresetIndex" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentLoadedPresetIndexStatus.CurrentLoadedPresetIndex">
+            <summary>
+            The current preset bank number
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentLoadedPresetIndexStatus.HasCurrentLoadedPresetIndex">
+            <summary>Gets whether the "currentLoadedPresetIndex" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.CurrentLoadedPresetIndexStatus.ClearCurrentLoadedPresetIndex">
+            <summary>Clears the value of the "currentLoadedPresetIndex" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetRequestReflection">
+            <summary>Holder for reflection information generated from CurrentPresetRequest.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetRequestReflection.Descriptor">
+            <summary>File descriptor for CurrentPresetRequest.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetRequest">
+             <summary>
+            
+             Requests the current preset from the amp
+            
+             response: CurrentPresetStatus message
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetRequest.RequestFieldNumber">
+            <summary>Field number for the "request" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetRequest.Request">
+            <summary>
+            Always true on requests
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetRequest.HasRequest">
+            <summary>Gets whether the "request" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetRequest.ClearRequest">
+            <summary>Clears the value of the "request" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetSetReflection">
+            <summary>Holder for reflection information generated from CurrentPresetSet.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetSetReflection.Descriptor">
+            <summary>File descriptor for CurrentPresetSet.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetSet">
+             <summary>
+            
+             Sets the current preset of the amp
+            
+             response: CurrentPresetStatus message
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetSet.CurrentPresetDataFieldNumber">
+            <summary>Field number for the "currentPresetData" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetSet.CurrentPresetData">
+            <summary>
+            JSON data conatining preset data
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetSet.HasCurrentPresetData">
+            <summary>Gets whether the "currentPresetData" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetSet.ClearCurrentPresetData">
+            <summary>Clears the value of the "currentPresetData" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetStatusReflection">
+            <summary>Holder for reflection information generated from CurrentPresetStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetStatusReflection.Descriptor">
+            <summary>File descriptor for CurrentPresetStatus.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetStatus">
+             <summary>
+            
+             Returns the state of the current preset
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetStatus.CurrentPresetDataFieldNumber">
+            <summary>Field number for the "currentPresetData" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetStatus.CurrentPresetData">
+            <summary>
+            JSON data conatining current preset data
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetStatus.HasCurrentPresetData">
+            <summary>Gets whether the "currentPresetData" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetStatus.ClearCurrentPresetData">
+            <summary>Clears the value of the "currentPresetData" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetStatus.CurrentSlotIndexFieldNumber">
+            <summary>Field number for the "currentSlotIndex" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetStatus.CurrentSlotIndex">
+            <summary>
+            Current preset bank number
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetStatus.HasCurrentSlotIndex">
+            <summary>Gets whether the "currentSlotIndex" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetStatus.ClearCurrentSlotIndex">
+            <summary>Clears the value of the "currentSlotIndex" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetStatus.CurrentPresetDirtyStatusFieldNumber">
+            <summary>Field number for the "currentPresetDirtyStatus" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetStatus.CurrentPresetDirtyStatus">
+            <summary>
+            True if current preset has been edited and not saved
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetStatus.HasCurrentPresetDirtyStatus">
+            <summary>Gets whether the "currentPresetDirtyStatus" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.CurrentPresetStatus.ClearCurrentPresetDirtyStatus">
+            <summary>Clears the value of the "currentPresetDirtyStatus" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatusReflection">
+            <summary>Holder for reflection information generated from DspUnitParameterStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatusReflection.Descriptor">
+            <summary>File descriptor for DspUnitParameterStatus.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatus.NodeIdFieldNumber">
+            <summary>Field number for the "nodeId" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatus.HasNodeId">
+            <summary>Gets whether the "nodeId" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatus.ClearNodeId">
+            <summary>Clears the value of the "nodeId" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatus.ParameterIdFieldNumber">
+            <summary>Field number for the "parameterId" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatus.HasParameterId">
+            <summary>Gets whether the "parameterId" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatus.ClearParameterId">
+            <summary>Clears the value of the "parameterId" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatus.FloatParameterFieldNumber">
+            <summary>Field number for the "floatParameter" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatus.HasFloatParameter">
+            <summary>Gets whether the "floatParameter" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatus.ClearFloatParameter">
+            <summary> Clears the value of the oneof if it's currently set to "floatParameter" </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatus.StringParameterFieldNumber">
+            <summary>Field number for the "stringParameter" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatus.HasStringParameter">
+            <summary>Gets whether the "stringParameter" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatus.ClearStringParameter">
+            <summary> Clears the value of the oneof if it's currently set to "stringParameter" </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatus.Sint32ParameterFieldNumber">
+            <summary>Field number for the "sint32Parameter" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatus.HasSint32Parameter">
+            <summary>Gets whether the "sint32Parameter" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatus.ClearSint32Parameter">
+            <summary> Clears the value of the oneof if it's currently set to "sint32Parameter" </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatus.BoolParameterFieldNumber">
+            <summary>Field number for the "boolParameter" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatus.HasBoolParameter">
+            <summary>Gets whether the "boolParameter" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatus.ClearBoolParameter">
+            <summary> Clears the value of the oneof if it's currently set to "boolParameter" </summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.DspUnitParameterStatus.TypeOneofCase">
+            <summary>Enum of possible cases for the "type" oneof.</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ExitAuditionPresetReflection">
+            <summary>Holder for reflection information generated from ExitAuditionPreset.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ExitAuditionPresetReflection.Descriptor">
+            <summary>File descriptor for ExitAuditionPreset.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ExitAuditionPreset">
+             <summary>
+            
+             Leaves audition mode
+            
+             response: ExitAuditionPresetStatus message
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ExitAuditionPreset.ExitFieldNumber">
+            <summary>Field number for the "exit" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ExitAuditionPreset.Exit">
+            <summary>
+            True to exit audition mode
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ExitAuditionPreset.HasExit">
+            <summary>Gets whether the "exit" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ExitAuditionPreset.ClearExit">
+            <summary>Clears the value of the "exit" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ExitAuditionPresetStatusReflection">
+            <summary>Holder for reflection information generated from ExitAuditionPresetStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ExitAuditionPresetStatusReflection.Descriptor">
+            <summary>File descriptor for ExitAuditionPresetStatus.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ExitAuditionPresetStatus">
+             <summary>
+            
+             Result message for an ExitAuditionPreset message
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ExitAuditionPresetStatus.IsSuccessFieldNumber">
+            <summary>Field number for the "isSuccess" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ExitAuditionPresetStatus.IsSuccess">
+            <summary>
+            True if audition mode was exited successfully
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ExitAuditionPresetStatus.HasIsSuccess">
+            <summary>Gets whether the "isSuccess" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ExitAuditionPresetStatus.ClearIsSuccess">
+            <summary>Clears the value of the "isSuccess" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLTReflection">
+            <summary>Holder for reflection information generated from FenderMessageLT.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLTReflection.Descriptor">
+            <summary>File descriptor for FenderMessageLT.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ResponseType">
+             <summary>
+            
+             Message response type
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ResponseType.Unsolicited">
+            <summary>
+            Message sent not as the result of a command
+            </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ResponseType.NotLastAck">
+            <summary>
+            Message sent as the result of a command, but NOT the last message in the batch
+            </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ResponseType.IsLastAck">
+            <summary>
+            Message sent as the last result of a command
+            </summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT">
+             <summary>
+            
+             Base message type used to communicate with the amp
+            
+             All messages are of this type, and encapsulate the actual message
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.ResponseTypeFieldNumber">
+            <summary>Field number for the "responseType" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.ResponseType">
+            <summary>
+            Response type. All messages from the host to the amp are UNSOLICITED
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.HasResponseType">
+            <summary>Gets whether the "responseType" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.ClearResponseType">
+            <summary>Clears the value of the "responseType" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.IndexPotFieldNumber">
+            <summary>Field number for the "indexPot" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.IndexButtonFieldNumber">
+            <summary>Field number for the "indexButton" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.IndexEncoderFieldNumber">
+            <summary>Field number for the "indexEncoder" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.ActiveDisplayFieldNumber">
+            <summary>Field number for the "activeDisplay" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.ProcessorUtilizationRequestFieldNumber">
+            <summary>Field number for the "processorUtilizationRequest" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.ProcessorUtilizationFieldNumber">
+            <summary>Field number for the "processorUtilization" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.MemoryUsageRequestFieldNumber">
+            <summary>Field number for the "memoryUsageRequest" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.MemoryUsageStatusFieldNumber">
+            <summary>Field number for the "memoryUsageStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.PresetJSONMessageRequestLTFieldNumber">
+            <summary>Field number for the "presetJSONMessageRequest_LT" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.FrameBufferMessageRequestFieldNumber">
+            <summary>Field number for the "frameBufferMessageRequest" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.FrameBufferMessageFieldNumber">
+            <summary>Field number for the "frameBufferMessage" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.Lt4FootswitchModeRequestFieldNumber">
+            <summary>Field number for the "lt4FootswitchModeRequest" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.Lt4FootswitchModeStatusFieldNumber">
+            <summary>Field number for the "lt4FootswitchModeStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.LoadPresetTestSuiteFieldNumber">
+            <summary>Field number for the "loadPreset_TestSuite" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.LoopbackTestFieldNumber">
+            <summary>Field number for the "loopbackTest" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.PresetJSONMessageFieldNumber">
+            <summary>Field number for the "presetJSONMessage" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.CurrentPresetStatusFieldNumber">
+            <summary>Field number for the "currentPresetStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.LoadPresetFieldNumber">
+            <summary>Field number for the "loadPreset" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.SetDspUnitParameterFieldNumber">
+            <summary>Field number for the "setDspUnitParameter" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.SetDspUnitParameterStatusFieldNumber">
+            <summary>Field number for the "setDspUnitParameterStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.DspUnitParameterStatusFieldNumber">
+            <summary>Field number for the "dspUnitParameterStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.CurrentLoadedPresetIndexStatusFieldNumber">
+            <summary>Field number for the "currentLoadedPresetIndexStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.PresetEditedStatusFieldNumber">
+            <summary>Field number for the "presetEditedStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.ReplaceNodeFieldNumber">
+            <summary>Field number for the "replaceNode" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.ReplaceNodeStatusFieldNumber">
+            <summary>Field number for the "replaceNodeStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.ShiftPresetFieldNumber">
+            <summary>Field number for the "shiftPreset" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.ShiftPresetStatusFieldNumber">
+            <summary>Field number for the "shiftPresetStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.SwapPresetFieldNumber">
+            <summary>Field number for the "swapPreset" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.SwapPresetStatusFieldNumber">
+            <summary>Field number for the "swapPresetStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.CurrentPresetSetFieldNumber">
+            <summary>Field number for the "currentPresetSet" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.CurrentLoadedPresetIndexBypassStatusFieldNumber">
+            <summary>Field number for the "currentLoadedPresetIndexBypassStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.CurrentDisplayedPresetIndexStatusFieldNumber">
+            <summary>Field number for the "currentDisplayedPresetIndexStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.PresetSavedStatusFieldNumber">
+            <summary>Field number for the "presetSavedStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.ClearPresetFieldNumber">
+            <summary>Field number for the "clearPreset" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.ClearPresetStatusFieldNumber">
+            <summary>Field number for the "clearPresetStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.SaveCurrentPresetFieldNumber">
+            <summary>Field number for the "saveCurrentPreset" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.SaveCurrentPresetToFieldNumber">
+            <summary>Field number for the "saveCurrentPresetTo" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.SavePresetAsFieldNumber">
+            <summary>Field number for the "savePresetAs" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.NewPresetSavedStatusFieldNumber">
+            <summary>Field number for the "newPresetSavedStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.RenamePresetAtFieldNumber">
+            <summary>Field number for the "renamePresetAt" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.AuditionPresetFieldNumber">
+            <summary>Field number for the "auditionPreset" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.AuditionPresetStatusFieldNumber">
+            <summary>Field number for the "auditionPresetStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.ExitAuditionPresetFieldNumber">
+            <summary>Field number for the "exitAuditionPreset" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.ExitAuditionPresetStatusFieldNumber">
+            <summary>Field number for the "exitAuditionPresetStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.AuditionStateRequestFieldNumber">
+            <summary>Field number for the "auditionStateRequest" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.AuditionStateStatusFieldNumber">
+            <summary>Field number for the "auditionStateStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.ProductIdentificationStatusFieldNumber">
+            <summary>Field number for the "productIdentificationStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.ProductIdentificationRequestFieldNumber">
+            <summary>Field number for the "productIdentificationRequest" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.FirmwareVersionRequestFieldNumber">
+            <summary>Field number for the "firmwareVersionRequest" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.FirmwareVersionStatusFieldNumber">
+            <summary>Field number for the "firmwareVersionStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.CurrentPresetRequestFieldNumber">
+            <summary>Field number for the "currentPresetRequest" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.RetrievePresetFieldNumber">
+            <summary>Field number for the "retrievePreset" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.UsbGainRequestFieldNumber">
+            <summary>Field number for the "usbGainRequest" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.UsbGainStatusFieldNumber">
+            <summary>Field number for the "usbGainStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.QASlotsRequestFieldNumber">
+            <summary>Field number for the "qASlotsRequest" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.QASlotsStatusFieldNumber">
+            <summary>Field number for the "qASlotsStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.LineOutGainRequestFieldNumber">
+            <summary>Field number for the "lineOutGainRequest" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.LineOutGainStatusFieldNumber">
+            <summary>Field number for the "lineOutGainStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.ModalStatusMessageFieldNumber">
+            <summary>Field number for the "modalStatusMessage" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.UsbGainSetFieldNumber">
+            <summary>Field number for the "usbGainSet" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.LineOutGainSetFieldNumber">
+            <summary>Field number for the "lineOutGainSet" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.QASlotsSetFieldNumber">
+            <summary>Field number for the "qASlotsSet" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.UnsupportedMessageStatusFieldNumber">
+            <summary>Field number for the "unsupportedMessageStatus" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.HeartbeatFieldNumber">
+            <summary>Field number for the "heartbeat" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.ConnectionStatusRequestFieldNumber">
+            <summary>Field number for the "connectionStatusRequest" field.</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.ConnectionStatusFieldNumber">
+            <summary>Field number for the "connectionStatus" field.</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.FenderMessageLT.TypeOneofCase">
+            <summary>Enum of possible cases for the "type" oneof.</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.FirmwareVersionRequestReflection">
+            <summary>Holder for reflection information generated from FirmwareVersionRequest.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.FirmwareVersionRequestReflection.Descriptor">
+            <summary>File descriptor for FirmwareVersionRequest.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.FirmwareVersionRequest">
+             <summary>
+            
+             Requests the current filrware version
+            
+             response: FirmwareVersionStatus message
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FirmwareVersionRequest.RequestFieldNumber">
+            <summary>Field number for the "request" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.FirmwareVersionRequest.Request">
+            <summary>
+            Always true on requests
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.FirmwareVersionRequest.HasRequest">
+            <summary>Gets whether the "request" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.FirmwareVersionRequest.ClearRequest">
+            <summary>Clears the value of the "request" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.FirmwareVersionStatusReflection">
+            <summary>Holder for reflection information generated from FirmwareVersionStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.FirmwareVersionStatusReflection.Descriptor">
+            <summary>File descriptor for FirmwareVersionStatus.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.FirmwareVersionStatus">
+             <summary>
+            
+             The firmware version of the amp
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FirmwareVersionStatus.VersionFieldNumber">
+            <summary>Field number for the "version" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.FirmwareVersionStatus.Version">
+            <summary>
+            Firmware Version
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.FirmwareVersionStatus.HasVersion">
+            <summary>Gets whether the "version" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.FirmwareVersionStatus.ClearVersion">
+            <summary>Clears the value of the "version" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.FrameBufferMessageReflection">
+            <summary>Holder for reflection information generated from FrameBufferMessage.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.FrameBufferMessageReflection.Descriptor">
+            <summary>File descriptor for FrameBufferMessage.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FrameBufferMessage.DataFieldNumber">
+            <summary>Field number for the "data" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.FrameBufferMessage.HasData">
+            <summary>Gets whether the "data" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.FrameBufferMessage.ClearData">
+            <summary>Clears the value of the "data" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.FrameBufferMessageRequestReflection">
+            <summary>Holder for reflection information generated from FrameBufferMessageRequest.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.FrameBufferMessageRequestReflection.Descriptor">
+            <summary>File descriptor for FrameBufferMessageRequest.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.FrameBufferMessageRequest.RequestFieldNumber">
+            <summary>Field number for the "request" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.FrameBufferMessageRequest.Request">
+            <summary>
+            Always true on requests
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.FrameBufferMessageRequest.HasRequest">
+            <summary>Gets whether the "request" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.FrameBufferMessageRequest.ClearRequest">
+            <summary>Clears the value of the "request" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.HeartbeatReflection">
+            <summary>Holder for reflection information generated from Heartbeat.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.HeartbeatReflection.Descriptor">
+            <summary>File descriptor for Heartbeat.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.Heartbeat">
+            <summary>
+            Heartbeat message sent every second to keep the connection alive
+            </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.Heartbeat.DummyFieldFieldNumber">
+            <summary>Field number for the "dummyField" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.Heartbeat.HasDummyField">
+            <summary>Gets whether the "dummyField" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.Heartbeat.ClearDummyField">
+            <summary>Clears the value of the "dummyField" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.IndexButtonReflection">
+            <summary>Holder for reflection information generated from IndexButton.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.IndexButtonReflection.Descriptor">
+            <summary>File descriptor for IndexButton.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.IndexButton.IndexFieldNumber">
+            <summary>Field number for the "index" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.IndexButton.HasIndex">
+            <summary>Gets whether the "index" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.IndexButton.ClearIndex">
+            <summary>Clears the value of the "index" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.IndexButton.EventFieldNumber">
+            <summary>Field number for the "event" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.IndexButton.HasEvent">
+            <summary>Gets whether the "event" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.IndexButton.ClearEvent">
+            <summary>Clears the value of the "event" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.IndexButton.TimestampMsFieldNumber">
+            <summary>Field number for the "timestamp_ms" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.IndexButton.HasTimestampMs">
+            <summary>Gets whether the "timestamp_ms" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.IndexButton.ClearTimestampMs">
+            <summary>Clears the value of the "timestamp_ms" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.IndexButton.Types">
+            <summary>Container for nested types declared in the IndexButton message type.</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.IndexEncoderReflection">
+            <summary>Holder for reflection information generated from IndexEncoder.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.IndexEncoderReflection.Descriptor">
+            <summary>File descriptor for IndexEncoder.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.IndexEncoder.IndexFieldNumber">
+            <summary>Field number for the "index" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.IndexEncoder.HasIndex">
+            <summary>Gets whether the "index" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.IndexEncoder.ClearIndex">
+            <summary>Clears the value of the "index" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.IndexEncoder.TicksFieldNumber">
+            <summary>Field number for the "ticks" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.IndexEncoder.HasTicks">
+            <summary>Gets whether the "ticks" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.IndexEncoder.ClearTicks">
+            <summary>Clears the value of the "ticks" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.IndexPotReflection">
+            <summary>Holder for reflection information generated from IndexPot.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.IndexPotReflection.Descriptor">
+            <summary>File descriptor for IndexPot.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.IndexPot.IndexFieldNumber">
+            <summary>Field number for the "index" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.IndexPot.HasIndex">
+            <summary>Gets whether the "index" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.IndexPot.ClearIndex">
+            <summary>Clears the value of the "index" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.IndexPot.PositionFieldNumber">
+            <summary>Field number for the "position" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.IndexPot.HasPosition">
+            <summary>Gets whether the "position" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.IndexPot.ClearPosition">
+            <summary>Clears the value of the "position" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.LineOutGainRequestReflection">
+            <summary>Holder for reflection information generated from LineOutGainRequest.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.LineOutGainRequestReflection.Descriptor">
+            <summary>File descriptor for LineOutGainRequest.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.LineOutGainRequest.RequestFieldNumber">
+            <summary>Field number for the "request" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.LineOutGainRequest.Request">
+            <summary>
+            Always true on requests
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.LineOutGainRequest.HasRequest">
+            <summary>Gets whether the "request" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.LineOutGainRequest.ClearRequest">
+            <summary>Clears the value of the "request" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.LineOutGainSetReflection">
+            <summary>Holder for reflection information generated from LineOutGainSet.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.LineOutGainSetReflection.Descriptor">
+            <summary>File descriptor for LineOutGainSet.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.LineOutGainSet.ValueDBFieldNumber">
+            <summary>Field number for the "valueDB" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.LineOutGainSet.HasValueDB">
+            <summary>Gets whether the "valueDB" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.LineOutGainSet.ClearValueDB">
+            <summary>Clears the value of the "valueDB" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.LineOutGainStatusReflection">
+            <summary>Holder for reflection information generated from LineOutGainStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.LineOutGainStatusReflection.Descriptor">
+            <summary>File descriptor for LineOutGainStatus.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.LineOutGainStatus.ValueDBFieldNumber">
+            <summary>Field number for the "valueDB" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.LineOutGainStatus.HasValueDB">
+            <summary>Gets whether the "valueDB" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.LineOutGainStatus.ClearValueDB">
+            <summary>Clears the value of the "valueDB" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.LoadPresetReflection">
+            <summary>Holder for reflection information generated from LoadPreset.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.LoadPresetReflection.Descriptor">
+            <summary>File descriptor for LoadPreset.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.LoadPreset">
+             <summary>
+            
+             Switches the amp to the specified preset number
+            
+             response: CurrentLoadedPresetIndexStatus message 
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.LoadPreset.PresetIndexFieldNumber">
+            <summary>Field number for the "presetIndex" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.LoadPreset.PresetIndex">
+            <summary>
+            Preset bank number currently loaded
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.LoadPreset.HasPresetIndex">
+            <summary>Gets whether the "presetIndex" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.LoadPreset.ClearPresetIndex">
+            <summary>Clears the value of the "presetIndex" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.LoadPresetTestSuiteReflection">
+            <summary>Holder for reflection information generated from LoadPreset_TestSuite.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.LoadPresetTestSuiteReflection.Descriptor">
+            <summary>File descriptor for LoadPreset_TestSuite.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.LoadPreset_TestSuite.PresetIndexFieldNumber">
+            <summary>Field number for the "presetIndex" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.LoadPreset_TestSuite.HasPresetIndex">
+            <summary>Gets whether the "presetIndex" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.LoadPreset_TestSuite.ClearPresetIndex">
+            <summary>Clears the value of the "presetIndex" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.LoopbackTestReflection">
+            <summary>Holder for reflection information generated from LoopbackTest.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.LoopbackTestReflection.Descriptor">
+            <summary>File descriptor for LoopbackTest.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.LoopbackTest.DataFieldNumber">
+            <summary>Field number for the "data" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.LoopbackTest.HasData">
+            <summary>Gets whether the "data" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.LoopbackTest.ClearData">
+            <summary>Clears the value of the "data" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.LT4FootswitchModeRequestReflection">
+            <summary>Holder for reflection information generated from LT4FootswitchModeRequest.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.LT4FootswitchModeRequestReflection.Descriptor">
+            <summary>File descriptor for LT4FootswitchModeRequest.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.LT4FootswitchModeRequest.RequestFieldNumber">
+            <summary>Field number for the "request" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.LT4FootswitchModeRequest.Request">
+            <summary>
+            Always true on requests
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.LT4FootswitchModeRequest.HasRequest">
+            <summary>Gets whether the "request" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.LT4FootswitchModeRequest.ClearRequest">
+            <summary>Clears the value of the "request" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.LT4FootswitchModeStatusReflection">
+            <summary>Holder for reflection information generated from LT4FootswitchModeStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.LT4FootswitchModeStatusReflection.Descriptor">
+            <summary>File descriptor for LT4FootswitchModeStatus.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.LT4FootswitchModeStatus.CurrentModeFieldNumber">
+            <summary>Field number for the "currentMode" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.LT4FootswitchModeStatus.HasCurrentMode">
+            <summary>Gets whether the "currentMode" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.LT4FootswitchModeStatus.ClearCurrentMode">
+            <summary>Clears the value of the "currentMode" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.MemoryUsageRequestReflection">
+            <summary>Holder for reflection information generated from MemoryUsageRequest.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.MemoryUsageRequestReflection.Descriptor">
+            <summary>File descriptor for MemoryUsageRequest.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.MemoryUsageRequest">
+             <summary>
+            
+             Requests memory usage statistics from the amp
+            
+             response: MemoryUsageStatus message
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.MemoryUsageRequest.RequestFieldNumber">
+            <summary>Field number for the "request" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.MemoryUsageRequest.Request">
+            <summary>
+            Always true on requests
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.MemoryUsageRequest.HasRequest">
+            <summary>Gets whether the "request" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.MemoryUsageRequest.ClearRequest">
+            <summary>Clears the value of the "request" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.MemoryUsageStatusReflection">
+            <summary>Holder for reflection information generated from MemoryUsageStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.MemoryUsageStatusReflection.Descriptor">
+            <summary>File descriptor for MemoryUsageStatus.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.MemoryUsageStatus">
+             <summary>
+            
+             Message conainting current memory usage statistics
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.MemoryUsageStatus.StackFieldNumber">
+            <summary>Field number for the "stack" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.MemoryUsageStatus.HasStack">
+            <summary>Gets whether the "stack" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.MemoryUsageStatus.ClearStack">
+            <summary>Clears the value of the "stack" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.MemoryUsageStatus.HeapFieldNumber">
+            <summary>Field number for the "heap" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.MemoryUsageStatus.HasHeap">
+            <summary>Gets whether the "heap" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.MemoryUsageStatus.ClearHeap">
+            <summary>Clears the value of the "heap" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ModalStatusMessageReflection">
+            <summary>Holder for reflection information generated from ModalStatusMessage.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ModalStatusMessageReflection.Descriptor">
+            <summary>File descriptor for ModalStatusMessage.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ModalContext.SyncBegin">
+            <summary>
+            Used during the initialization of the connection
+            </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ModalContext.SyncEnd">
+            <summary>
+            Used during the initialization of the connection
+            </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ModalContext.TunerEnable">
+            <summary>
+            Enables the tuner
+            </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ModalContext.TunerDisable">
+            <summary>
+            Disables the tuner
+            </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ModalState.Ok">
+            <summary>
+            Success; also the default when sending this message to the amp
+            </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ModalState.Fail">
+            <summary>
+            Failure
+            </summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ModalStatusMessage">
+             <summary>
+            
+             Changes the state of the amp
+            
+             response: A ModalStatusMessage with the result of the request
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ModalStatusMessage.ContextFieldNumber">
+            <summary>Field number for the "context" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ModalStatusMessage.Context">
+            <summary>
+            Context to switch to
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ModalStatusMessage.HasContext">
+            <summary>Gets whether the "context" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ModalStatusMessage.ClearContext">
+            <summary>Clears the value of the "context" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ModalStatusMessage.StateFieldNumber">
+            <summary>Field number for the "state" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ModalStatusMessage.State">
+            <summary>
+            The result of the request. Requests to the amp are sent with an OK state
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ModalStatusMessage.HasState">
+            <summary>Gets whether the "state" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ModalStatusMessage.ClearState">
+            <summary>Clears the value of the "state" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.NewPresetSavedStatusReflection">
+            <summary>Holder for reflection information generated from NewPresetSavedStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.NewPresetSavedStatusReflection.Descriptor">
+            <summary>File descriptor for NewPresetSavedStatus.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.NewPresetSavedStatus.PresetDataFieldNumber">
+            <summary>Field number for the "presetData" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.NewPresetSavedStatus.HasPresetData">
+            <summary>Gets whether the "presetData" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.NewPresetSavedStatus.ClearPresetData">
+            <summary>Clears the value of the "presetData" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.NewPresetSavedStatus.PresetSlotFieldNumber">
+            <summary>Field number for the "presetSlot" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.NewPresetSavedStatus.HasPresetSlot">
+            <summary>Gets whether the "presetSlot" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.NewPresetSavedStatus.ClearPresetSlot">
+            <summary>Clears the value of the "presetSlot" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.PresetJSONMessageReflection">
+            <summary>Holder for reflection information generated from PresetJSONMessage.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.PresetJSONMessageReflection.Descriptor">
+            <summary>File descriptor for PresetJSONMessage.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.PresetJSONMessage">
+             <summary>
+            
+             Saved preset data
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.PresetJSONMessage.DataFieldNumber">
+            <summary>Field number for the "data" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.PresetJSONMessage.Data">
+            <summary>
+            JSON data conatining preset data for requested preset bank
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.PresetJSONMessage.HasData">
+            <summary>Gets whether the "data" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.PresetJSONMessage.ClearData">
+            <summary>Clears the value of the "data" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.PresetJSONMessage.SlotIndexFieldNumber">
+            <summary>Field number for the "slotIndex" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.PresetJSONMessage.SlotIndex">
+            <summary>
+            Preset bank this preset is stored in
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.PresetJSONMessage.HasSlotIndex">
+            <summary>Gets whether the "slotIndex" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.PresetJSONMessage.ClearSlotIndex">
+            <summary>Clears the value of the "slotIndex" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.PresetJSONMessageRequestLTReflection">
+            <summary>Holder for reflection information generated from PresetJSONMessageRequest_LT.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.PresetJSONMessageRequestLTReflection.Descriptor">
+            <summary>File descriptor for PresetJSONMessageRequest_LT.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.PresetJSONMessageRequest_LT.RequestFieldNumber">
+            <summary>Field number for the "request" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.PresetJSONMessageRequest_LT.HasRequest">
+            <summary>Gets whether the "request" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.PresetJSONMessageRequest_LT.ClearRequest">
+            <summary>Clears the value of the "request" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.PresetSavedStatusReflection">
+            <summary>Holder for reflection information generated from PresetSavedStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.PresetSavedStatusReflection.Descriptor">
+            <summary>File descriptor for PresetSavedStatus.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.PresetSavedStatus">
+             <summary>
+            
+             Result of a SaveCurrentPreset, SaveCurrentPresetTo, or SavePresetAs message. Also sent when the preset is saved on the amp.
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.PresetSavedStatus.NameFieldNumber">
+            <summary>Field number for the "name" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.PresetSavedStatus.Name">
+            <summary>
+            Name of the preset saved
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.PresetSavedStatus.HasName">
+            <summary>Gets whether the "name" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.PresetSavedStatus.ClearName">
+            <summary>Clears the value of the "name" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.PresetSavedStatus.SlotFieldNumber">
+            <summary>Field number for the "slot" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.PresetSavedStatus.Slot">
+            <summary>
+            Preset bank of the saved preset
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.PresetSavedStatus.HasSlot">
+            <summary>Gets whether the "slot" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.PresetSavedStatus.ClearSlot">
+            <summary>Clears the value of the "slot" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ProcessorUtilizationReflection">
+            <summary>Holder for reflection information generated from ProcessorUtilization.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ProcessorUtilizationReflection.Descriptor">
+            <summary>File descriptor for ProcessorUtilization.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ProcessorUtilization">
+             <summary>
+            
+             Current processor utilization statistics
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ProcessorUtilization.PercentFieldNumber">
+            <summary>Field number for the "percent" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ProcessorUtilization.HasPercent">
+            <summary>Gets whether the "percent" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ProcessorUtilization.ClearPercent">
+            <summary>Clears the value of the "percent" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ProcessorUtilization.MinPercentFieldNumber">
+            <summary>Field number for the "minPercent" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ProcessorUtilization.HasMinPercent">
+            <summary>Gets whether the "minPercent" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ProcessorUtilization.ClearMinPercent">
+            <summary>Clears the value of the "minPercent" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ProcessorUtilization.MaxPercentFieldNumber">
+            <summary>Field number for the "maxPercent" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ProcessorUtilization.HasMaxPercent">
+            <summary>Gets whether the "maxPercent" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ProcessorUtilization.ClearMaxPercent">
+            <summary>Clears the value of the "maxPercent" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ProcessorUtilizationRequestReflection">
+            <summary>Holder for reflection information generated from ProcessorUtilizationRequest.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ProcessorUtilizationRequestReflection.Descriptor">
+            <summary>File descriptor for ProcessorUtilizationRequest.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ProcessorUtilizationRequest">
+             <summary>
+            
+             Requests processor statistics from the amp
+            
+             response: ProcessorUtilization message
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ProcessorUtilizationRequest.RequestFieldNumber">
+            <summary>Field number for the "request" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ProcessorUtilizationRequest.Request">
+            <summary>
+            Always true on requests
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ProcessorUtilizationRequest.HasRequest">
+            <summary>Gets whether the "request" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ProcessorUtilizationRequest.ClearRequest">
+            <summary>Clears the value of the "request" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ProductIdentificationRequestReflection">
+            <summary>Holder for reflection information generated from ProductIdentificationRequest.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ProductIdentificationRequestReflection.Descriptor">
+            <summary>File descriptor for ProductIdentificationRequest.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ProductIdentificationRequest.RequestFieldNumber">
+            <summary>Field number for the "request" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ProductIdentificationRequest.Request">
+            <summary>
+            Always true on requests
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ProductIdentificationRequest.HasRequest">
+            <summary>Gets whether the "request" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ProductIdentificationRequest.ClearRequest">
+            <summary>Clears the value of the "request" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ProductIdentificationStatusReflection">
+            <summary>Holder for reflection information generated from ProductIdentificationStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ProductIdentificationStatusReflection.Descriptor">
+            <summary>File descriptor for ProductIdentificationStatus.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ProductIdentificationStatus.IdFieldNumber">
+            <summary>Field number for the "id" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ProductIdentificationStatus.HasId">
+            <summary>Gets whether the "id" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ProductIdentificationStatus.ClearId">
+            <summary>Clears the value of the "id" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.QASlotsRequestReflection">
+            <summary>Holder for reflection information generated from QASlotsRequest.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.QASlotsRequestReflection.Descriptor">
+            <summary>File descriptor for QASlotsRequest.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.QASlotsRequest">
+             <summary>
+            
+             Requests the settings of the footswitch presets
+            
+             response: QASlotsStatus message
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.QASlotsRequest.RequestFieldNumber">
+            <summary>Field number for the "request" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.QASlotsRequest.Request">
+            <summary>
+            Always true on requests
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.QASlotsRequest.HasRequest">
+            <summary>Gets whether the "request" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.QASlotsRequest.ClearRequest">
+            <summary>Clears the value of the "request" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.QASlotsSetReflection">
+            <summary>Holder for reflection information generated from QASlotsSet.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.QASlotsSetReflection.Descriptor">
+            <summary>File descriptor for QASlotsSet.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.QASlotsSet">
+             <summary>
+            
+             Assigns preset banks to the footswitch
+            
+             response: QASlotsStatus message
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.QASlotsSet.SlotsFieldNumber">
+            <summary>Field number for the "slots" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.QASlotsSet.Slots">
+            <summary>
+            Preset banks to assign to the footswitch
+            </summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.QASlotsStatusReflection">
+            <summary>Holder for reflection information generated from QASlotsStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.QASlotsStatusReflection.Descriptor">
+            <summary>File descriptor for QASlotsStatus.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.QASlotsStatus">
+             <summary>
+            
+             The current settings of the footswitch presets
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.QASlotsStatus.SlotsFieldNumber">
+            <summary>Field number for the "slots" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.QASlotsStatus.Slots">
+            <summary>
+            The preset banks assigned to the footswitch
+            </summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.RenamePresetAtReflection">
+            <summary>Holder for reflection information generated from RenamePresetAt.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.RenamePresetAtReflection.Descriptor">
+            <summary>File descriptor for RenamePresetAt.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.RenamePresetAt.PresetNameFieldNumber">
+            <summary>Field number for the "presetName" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.RenamePresetAt.HasPresetName">
+            <summary>Gets whether the "presetName" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.RenamePresetAt.ClearPresetName">
+            <summary>Clears the value of the "presetName" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.RenamePresetAt.PresetSlotFieldNumber">
+            <summary>Field number for the "presetSlot" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.RenamePresetAt.HasPresetSlot">
+            <summary>Gets whether the "presetSlot" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.RenamePresetAt.ClearPresetSlot">
+            <summary>Clears the value of the "presetSlot" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNodeReflection">
+            <summary>Holder for reflection information generated from ReplaceNode.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNodeReflection.Descriptor">
+            <summary>File descriptor for ReplaceNode.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNode">
+             <summary>
+            
+             Swaps out a node (amp, stomp, mod, delay, or reverb)
+            
+             response: ReplaceNodeStatus message
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNode.NodeIdToReplaceFieldNumber">
+            <summary>Field number for the "nodeIdToReplace" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNode.NodeIdToReplace">
+            <summary>
+            node to replace (amp, stomp, mod, delay, or reverb)
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNode.HasNodeIdToReplace">
+            <summary>Gets whether the "nodeIdToReplace" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNode.ClearNodeIdToReplace">
+            <summary>Clears the value of the "nodeIdToReplace" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNode.FenderIdToReplaceWithFieldNumber">
+            <summary>Field number for the "fenderIdToReplaceWith" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNode.FenderIdToReplaceWith">
+            <summary>
+            FenderId of node to set
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNode.HasFenderIdToReplaceWith">
+            <summary>Gets whether the "fenderIdToReplaceWith" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNode.ClearFenderIdToReplaceWith">
+            <summary>Clears the value of the "fenderIdToReplaceWith" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNodeStatusReflection">
+            <summary>Holder for reflection information generated from ReplaceNodeStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNodeStatusReflection.Descriptor">
+            <summary>File descriptor for ReplaceNodeStatus.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNodeStatus">
+             <summary>
+            
+             Status of a ReplaceNode message; also sent when the node is changed at the amp
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNodeStatus.NodeIdReplacedFieldNumber">
+            <summary>Field number for the "nodeIdReplaced" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNodeStatus.NodeIdReplaced">
+            <summary>
+            node replaced (amp, stomp, mod, delay, or reverb)
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNodeStatus.HasNodeIdReplaced">
+            <summary>Gets whether the "nodeIdReplaced" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNodeStatus.ClearNodeIdReplaced">
+            <summary>Clears the value of the "nodeIdReplaced" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNodeStatus.FenderIdReplacedFieldNumber">
+            <summary>Field number for the "fenderIdReplaced" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNodeStatus.FenderIdReplaced">
+            <summary>
+            FenderId of node set
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNodeStatus.HasFenderIdReplaced">
+            <summary>Gets whether the "fenderIdReplaced" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ReplaceNodeStatus.ClearFenderIdReplaced">
+            <summary>Clears the value of the "fenderIdReplaced" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.RetrievePresetReflection">
+            <summary>Holder for reflection information generated from RetrievePreset.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.RetrievePresetReflection.Descriptor">
+            <summary>File descriptor for RetrievePreset.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.RetrievePreset">
+             <summary>
+            
+             Queries the amp on the stored presets
+            
+             response: PresetJsonMessage
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.RetrievePreset.SlotFieldNumber">
+            <summary>Field number for the "slot" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.RetrievePreset.Slot">
+            <summary>
+            Preset bank to retrieve
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.RetrievePreset.HasSlot">
+            <summary>Gets whether the "slot" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.RetrievePreset.ClearSlot">
+            <summary>Clears the value of the "slot" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.SaveCurrentPresetReflection">
+            <summary>Holder for reflection information generated from SaveCurrentPreset.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SaveCurrentPresetReflection.Descriptor">
+            <summary>File descriptor for SaveCurrentPreset.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SaveCurrentPreset.SaveFieldNumber">
+            <summary>Field number for the "save" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SaveCurrentPreset.HasSave">
+            <summary>Gets whether the "save" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SaveCurrentPreset.ClearSave">
+            <summary>Clears the value of the "save" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.SaveCurrentPresetToReflection">
+            <summary>Holder for reflection information generated from SaveCurrentPresetTo.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SaveCurrentPresetToReflection.Descriptor">
+            <summary>File descriptor for SaveCurrentPresetTo.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SaveCurrentPresetTo.PresetNameFieldNumber">
+            <summary>Field number for the "presetName" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SaveCurrentPresetTo.HasPresetName">
+            <summary>Gets whether the "presetName" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SaveCurrentPresetTo.ClearPresetName">
+            <summary>Clears the value of the "presetName" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SaveCurrentPresetTo.PresetSlotFieldNumber">
+            <summary>Field number for the "presetSlot" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SaveCurrentPresetTo.HasPresetSlot">
+            <summary>Gets whether the "presetSlot" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SaveCurrentPresetTo.ClearPresetSlot">
+            <summary>Clears the value of the "presetSlot" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.SavePresetAsReflection">
+            <summary>Holder for reflection information generated from SavePresetAs.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SavePresetAsReflection.Descriptor">
+            <summary>File descriptor for SavePresetAs.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SavePresetAs.PresetDataFieldNumber">
+            <summary>Field number for the "presetData" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SavePresetAs.HasPresetData">
+            <summary>Gets whether the "presetData" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SavePresetAs.ClearPresetData">
+            <summary>Clears the value of the "presetData" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SavePresetAs.IsLoadPresetFieldNumber">
+            <summary>Field number for the "isLoadPreset" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SavePresetAs.HasIsLoadPreset">
+            <summary>Gets whether the "isLoadPreset" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SavePresetAs.ClearIsLoadPreset">
+            <summary>Clears the value of the "isLoadPreset" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SavePresetAs.PresetSlotFieldNumber">
+            <summary>Field number for the "presetSlot" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SavePresetAs.HasPresetSlot">
+            <summary>Gets whether the "presetSlot" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SavePresetAs.ClearPresetSlot">
+            <summary>Clears the value of the "presetSlot" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterReflection">
+            <summary>Holder for reflection information generated from SetDspUnitParameter.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterReflection.Descriptor">
+            <summary>File descriptor for SetDspUnitParameter.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter">
+             <summary>
+            
+             Changes the parameters of the DSP units
+            
+             response: SetDspUnitParameterStatus message
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.NodeIdFieldNumber">
+            <summary>Field number for the "nodeId" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.NodeId">
+            <summary>
+            string id of the node to change (one of amp, stomp, mod, delay, reverb)
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.HasNodeId">
+            <summary>Gets whether the "nodeId" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.ClearNodeId">
+            <summary>Clears the value of the "nodeId" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.ParameterIdFieldNumber">
+            <summary>Field number for the "parameterId" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.ParameterId">
+            <summary>
+            string id of the parameter to change
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.HasParameterId">
+            <summary>Gets whether the "parameterId" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.ClearParameterId">
+            <summary>Clears the value of the "parameterId" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.FloatParameterFieldNumber">
+            <summary>Field number for the "floatParameter" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.HasFloatParameter">
+            <summary>Gets whether the "floatParameter" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.ClearFloatParameter">
+            <summary> Clears the value of the oneof if it's currently set to "floatParameter" </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.StringParameterFieldNumber">
+            <summary>Field number for the "stringParameter" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.HasStringParameter">
+            <summary>Gets whether the "stringParameter" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.ClearStringParameter">
+            <summary> Clears the value of the oneof if it's currently set to "stringParameter" </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.Sint32ParameterFieldNumber">
+            <summary>Field number for the "sint32Parameter" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.HasSint32Parameter">
+            <summary>Gets whether the "sint32Parameter" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.ClearSint32Parameter">
+            <summary> Clears the value of the oneof if it's currently set to "sint32Parameter" </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.BoolParameterFieldNumber">
+            <summary>Field number for the "boolParameter" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.HasBoolParameter">
+            <summary>Gets whether the "boolParameter" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.ClearBoolParameter">
+            <summary> Clears the value of the oneof if it's currently set to "boolParameter" </summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameter.TypeOneofCase">
+            <summary>Enum of possible cases for the "type" oneof.</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatusReflection">
+            <summary>Holder for reflection information generated from SetDspUnitParameterStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatusReflection.Descriptor">
+            <summary>File descriptor for SetDspUnitParameterStatus.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus">
+             <summary>
+            
+             Status of the SetDspUnitParameter message. Also sent when parameters are adjusted on the amp
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.NodeIdFieldNumber">
+            <summary>Field number for the "nodeId" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.NodeId">
+            <summary>
+            string id of the node changed (one of amp, stomp, mod, delay, reverb)
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.HasNodeId">
+            <summary>Gets whether the "nodeId" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.ClearNodeId">
+            <summary>Clears the value of the "nodeId" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.ParameterIdFieldNumber">
+            <summary>Field number for the "parameterId" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.ParameterId">
+            <summary>
+            string id of the parameter to change
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.HasParameterId">
+            <summary>Gets whether the "parameterId" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.ClearParameterId">
+            <summary>Clears the value of the "parameterId" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.FloatParameterFieldNumber">
+            <summary>Field number for the "floatParameter" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.HasFloatParameter">
+            <summary>Gets whether the "floatParameter" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.ClearFloatParameter">
+            <summary> Clears the value of the oneof if it's currently set to "floatParameter" </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.StringParameterFieldNumber">
+            <summary>Field number for the "stringParameter" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.HasStringParameter">
+            <summary>Gets whether the "stringParameter" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.ClearStringParameter">
+            <summary> Clears the value of the oneof if it's currently set to "stringParameter" </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.Sint32ParameterFieldNumber">
+            <summary>Field number for the "sint32Parameter" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.HasSint32Parameter">
+            <summary>Gets whether the "sint32Parameter" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.ClearSint32Parameter">
+            <summary> Clears the value of the oneof if it's currently set to "sint32Parameter" </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.BoolParameterFieldNumber">
+            <summary>Field number for the "boolParameter" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.HasBoolParameter">
+            <summary>Gets whether the "boolParameter" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.ClearBoolParameter">
+            <summary> Clears the value of the oneof if it's currently set to "boolParameter" </summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.SetDspUnitParameterStatus.TypeOneofCase">
+            <summary>Enum of possible cases for the "type" oneof.</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ShiftPresetReflection">
+            <summary>Holder for reflection information generated from ShiftPreset.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ShiftPresetReflection.Descriptor">
+            <summary>File descriptor for ShiftPreset.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ShiftPreset">
+             <summary>
+            
+             Moves a preset to the specified point, shifting all other presets
+            
+             response: ShiftPresetStatus message
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ShiftPreset.IndexToShiftFromFieldNumber">
+            <summary>Field number for the "indexToShiftFrom" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ShiftPreset.IndexToShiftFrom">
+            <summary>
+            Preset to shift
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ShiftPreset.HasIndexToShiftFrom">
+            <summary>Gets whether the "indexToShiftFrom" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ShiftPreset.ClearIndexToShiftFrom">
+            <summary>Clears the value of the "indexToShiftFrom" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ShiftPreset.IndexToShiftToFieldNumber">
+            <summary>Field number for the "indexToShiftTo" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ShiftPreset.IndexToShiftTo">
+            <summary>
+            Destination of preset to shift
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ShiftPreset.HasIndexToShiftTo">
+            <summary>Gets whether the "indexToShiftTo" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ShiftPreset.ClearIndexToShiftTo">
+            <summary>Clears the value of the "indexToShiftTo" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ShiftPresetStatusReflection">
+            <summary>Holder for reflection information generated from ShiftPresetStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ShiftPresetStatusReflection.Descriptor">
+            <summary>File descriptor for ShiftPresetStatus.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.ShiftPresetStatus">
+             <summary>
+            
+             Response to a ShiftPreset message with the status of the command
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ShiftPresetStatus.IndexToShiftFromFieldNumber">
+            <summary>Field number for the "indexToShiftFrom" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ShiftPresetStatus.IndexToShiftFrom">
+            <summary>
+            Preset shifted
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ShiftPresetStatus.HasIndexToShiftFrom">
+            <summary>Gets whether the "indexToShiftFrom" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ShiftPresetStatus.ClearIndexToShiftFrom">
+            <summary>Clears the value of the "indexToShiftFrom" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.ShiftPresetStatus.IndexToShiftToFieldNumber">
+            <summary>Field number for the "indexToShiftTo" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ShiftPresetStatus.IndexToShiftTo">
+            <summary>
+            Destination
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.ShiftPresetStatus.HasIndexToShiftTo">
+            <summary>Gets whether the "indexToShiftTo" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.ShiftPresetStatus.ClearIndexToShiftTo">
+            <summary>Clears the value of the "indexToShiftTo" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.SwapPresetReflection">
+            <summary>Holder for reflection information generated from SwapPreset.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SwapPresetReflection.Descriptor">
+            <summary>File descriptor for SwapPreset.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SwapPreset.IndexAFieldNumber">
+            <summary>Field number for the "indexA" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SwapPreset.HasIndexA">
+            <summary>Gets whether the "indexA" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SwapPreset.ClearIndexA">
+            <summary>Clears the value of the "indexA" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SwapPreset.IndexBFieldNumber">
+            <summary>Field number for the "indexB" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SwapPreset.HasIndexB">
+            <summary>Gets whether the "indexB" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SwapPreset.ClearIndexB">
+            <summary>Clears the value of the "indexB" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.SwapPresetStatusReflection">
+            <summary>Holder for reflection information generated from SwapPresetStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SwapPresetStatusReflection.Descriptor">
+            <summary>File descriptor for SwapPresetStatus.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SwapPresetStatus.IndexAFieldNumber">
+            <summary>Field number for the "indexA" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SwapPresetStatus.HasIndexA">
+            <summary>Gets whether the "indexA" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SwapPresetStatus.ClearIndexA">
+            <summary>Clears the value of the "indexA" field</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.SwapPresetStatus.IndexBFieldNumber">
+            <summary>Field number for the "indexB" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.SwapPresetStatus.HasIndexB">
+            <summary>Gets whether the "indexB" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.SwapPresetStatus.ClearIndexB">
+            <summary>Clears the value of the "indexB" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.UnsupportedMessageStatusReflection">
+            <summary>Holder for reflection information generated from UnsupportedMessageStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.UnsupportedMessageStatusReflection.Descriptor">
+            <summary>File descriptor for UnsupportedMessageStatus.proto</summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.UnsupportedMessageStatus.StatusFieldNumber">
+            <summary>Field number for the "status" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.UnsupportedMessageStatus.HasStatus">
+            <summary>Gets whether the "status" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.UnsupportedMessageStatus.ClearStatus">
+            <summary>Clears the value of the "status" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.UsbGainRequestReflection">
+            <summary>Holder for reflection information generated from UsbGainRequest.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.UsbGainRequestReflection.Descriptor">
+            <summary>File descriptor for UsbGainRequest.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.UsbGainRequest">
+             <summary>
+            
+             Gets the current USB Gain settings
+            
+             response: UsbGainStatus message
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.UsbGainRequest.RequestFieldNumber">
+            <summary>Field number for the "request" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.UsbGainRequest.HasRequest">
+            <summary>Gets whether the "request" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.UsbGainRequest.ClearRequest">
+            <summary>Clears the value of the "request" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.UsbGainSetReflection">
+            <summary>Holder for reflection information generated from UsbGainSet.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.UsbGainSetReflection.Descriptor">
+            <summary>File descriptor for UsbGainSet.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.UsbGainSet">
+             <summary>
+            
+             Sets the gain for the USB audio device
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.UsbGainSet.ValueDBFieldNumber">
+            <summary>Field number for the "valueDB" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.UsbGainSet.ValueDB">
+            <summary>
+            gain in dB
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.UsbGainSet.HasValueDB">
+            <summary>Gets whether the "valueDB" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.UsbGainSet.ClearValueDB">
+            <summary>Clears the value of the "valueDB" field</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.UsbGainStatusReflection">
+            <summary>Holder for reflection information generated from UsbGainStatus.proto</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.UsbGainStatusReflection.Descriptor">
+            <summary>File descriptor for UsbGainStatus.proto</summary>
+        </member>
+        <member name="T:LtAmpDotNet.Lib.Models.Protobuf.UsbGainStatus">
+             <summary>
+            
+             The current setting of the gain for the USB audio device
+             </summary>
+        </member>
+        <member name="F:LtAmpDotNet.Lib.Models.Protobuf.UsbGainStatus.ValueDBFieldNumber">
+            <summary>Field number for the "valueDB" field.</summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.UsbGainStatus.ValueDB">
+            <summary>
+            gain in dB
+            </summary>
+        </member>
+        <member name="P:LtAmpDotNet.Lib.Models.Protobuf.UsbGainStatus.HasValueDB">
+            <summary>Gets whether the "valueDB" field is set</summary>
+        </member>
+        <member name="M:LtAmpDotNet.Lib.Models.Protobuf.UsbGainStatus.ClearValueDB">
+            <summary>Clears the value of the "valueDB" field</summary>
+        </member>
+    </members>
+</doc>

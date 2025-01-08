@@ -1,15 +1,22 @@
+using LtAmpDotNet.Lib;
+using LtAmpDotNet.Lib.Device;
+
 namespace WinFormsAmpGui
 {
     public partial class FormMain : Form
     {
+        private LtAmplifier _amplifier;
         public FormMain()
         {
             InitializeComponent();
+            // Initialize the amplifier with a USB device
+        //    _amplifier = new LtAmplifier(new UsbAmpDevice());
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         private void buttonLoad_Click(object sender, EventArgs e)

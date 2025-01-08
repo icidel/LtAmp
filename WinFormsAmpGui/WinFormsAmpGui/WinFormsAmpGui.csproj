@@ -8,4 +8,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="LtAmpDotNet.Lib">
+      <HintPath>..\..\WpfGui\WpfApp1\Library\LtAmpDotNet.Lib\bin\Debug\net8.0\LtAmpDotNet.Lib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+
 </Project>
