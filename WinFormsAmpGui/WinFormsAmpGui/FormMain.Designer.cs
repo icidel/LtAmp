@@ -30,17 +30,40 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             buttonLoad = new Button();
+            listBoxPresets = new ListBox();
+            buttonSelectPreset = new Button();
             SuspendLayout();
             // 
             // buttonLoad
             // 
-            buttonLoad.Location = new Point(28, 122);
+            buttonLoad.Location = new Point(12, 12);
             buttonLoad.Name = "buttonLoad";
-            buttonLoad.Size = new Size(121, 23);
+            buttonLoad.Size = new Size(200, 23);
             buttonLoad.TabIndex = 0;
             buttonLoad.Text = "Load local presets";
             buttonLoad.UseVisualStyleBackColor = true;
             buttonLoad.Click += buttonLoad_Click;
+            // 
+            // listBoxPresets
+            // 
+            listBoxPresets.Font = new Font("Segoe UI", 10F);
+            listBoxPresets.FormattingEnabled = true;
+            listBoxPresets.ItemHeight = 17;
+            listBoxPresets.Location = new Point(12, 41);
+            listBoxPresets.Name = "listBoxPresets";
+            listBoxPresets.Size = new Size(200, 259);
+            listBoxPresets.TabIndex = 1;
+            listBoxPresets.SelectedIndexChanged += listBox1_SelectedIndexChanged;
+            // 
+            // buttonSelectPreset
+            // 
+            buttonSelectPreset.Location = new Point(12, 306);
+            buttonSelectPreset.Name = "buttonSelectPreset";
+            buttonSelectPreset.Size = new Size(200, 23);
+            buttonSelectPreset.TabIndex = 2;
+            buttonSelectPreset.Text = "Select preset";
+            buttonSelectPreset.UseVisualStyleBackColor = true;
+            buttonSelectPreset.Click += buttonSelectPreset_Click;
             // 
             // FormMain
             // 
@@ -48,6 +71,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DarkGray;
             ClientSize = new Size(784, 361);
+            Controls.Add(buttonSelectPreset);
+            Controls.Add(listBoxPresets);
             Controls.Add(buttonLoad);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
@@ -63,5 +88,7 @@
         #endregion
 
         private Button buttonLoad;
+        private ListBox listBoxPresets;
+        private Button buttonSelectPreset;
     }
 }
