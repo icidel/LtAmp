@@ -76,6 +76,7 @@
             buttonAmpConnect.TabIndex = 0;
             buttonAmpConnect.Text = "Connect";
             buttonAmpConnect.UseVisualStyleBackColor = true;
+            buttonAmpConnect.Click += buttonAmpConnect_Click;
             // 
             // buttonAmpDisconnect
             // 
@@ -85,6 +86,7 @@
             buttonAmpDisconnect.TabIndex = 0;
             buttonAmpDisconnect.Text = "Disconnect";
             buttonAmpDisconnect.UseVisualStyleBackColor = true;
+            buttonAmpDisconnect.Click += buttonAmpDisconnect_Click;
             // 
             // richTextBoxAmpConnection
             // 

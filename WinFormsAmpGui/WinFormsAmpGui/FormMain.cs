@@ -9,14 +9,11 @@ namespace WinFormsAmpGui
         public FormMain()
         {
             InitializeComponent();
-            // Initialize the amplifier with a USB device
-        //    _amplifier = new LtAmplifier(new UsbAmpDevice());
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            _amplifier = new LtAmplifier(new UsbAmpDevice());
         }
 
         private void buttonLoad_Click(object sender, EventArgs e)
@@ -25,6 +22,8 @@ namespace WinFormsAmpGui
             listBoxPresets.MultiColumn = false;
             // Shutdown the painting of the ListBox as items are added.
             listBoxPresets.BeginUpdate();
+
+            // _amplifier.GetAllPresetsAsync();
             // Loop through and add 50 items to the ListBox.
             for (int x = 1; x <= 50; x++)
             {
@@ -45,6 +44,16 @@ namespace WinFormsAmpGui
         private void buttonSelectPreset_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void buttonAmpConnect_Click(object sender, EventArgs e)
+        {
+            _amplifier.Open(false);
+        }
+
+        private void buttonAmpDisconnect_Click(object sender, EventArgs e)
+        {
+            _amplifier.Close();
         }
     }
 }
