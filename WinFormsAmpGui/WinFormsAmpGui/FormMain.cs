@@ -1,5 +1,6 @@
 using LtAmpDotNet.Lib;
 using LtAmpDotNet.Lib.Device;
+using LtAmpDotNet.Lib.Models.Protobuf;
 
 namespace WinFormsAmpGui
 {
@@ -9,11 +10,15 @@ namespace WinFormsAmpGui
         public FormMain()
         {
             InitializeComponent();
+            _amplifier = new LtAmplifier(new UsbAmpDevice());
         }
-
+        private void errorBoxDisplay(Exception ex)
+        {
+            MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
-            _amplifier = new LtAmplifier(new UsbAmpDevice());
+
         }
 
         private void buttonLoad_Click(object sender, EventArgs e)
@@ -45,7 +50,7 @@ namespace WinFormsAmpGui
         {
 
         }
-
+        // MUST ASYNC OPENING AND CLOSING
         private void buttonAmpConnect_Click(object sender, EventArgs e)
         {
             _amplifier.Open(false);
@@ -54,6 +59,20 @@ namespace WinFormsAmpGui
         private void buttonAmpDisconnect_Click(object sender, EventArgs e)
         {
             _amplifier.Close();
+        }
+
+        private async void buttonAmpConnectionInfo_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                labelConnectionInfo.Text = _amplifier.IsOpen ? "Yes" : "No";
+                FirmwareVersionStatus versionStatus = await _amplifier.GetFirmwareVersionAsync();
+                labelConnectionInfo.Text = $"Firmware Version: {versionStatus.Version}";
+            }
+            catch (Exception ex)
+            {
+                errorBoxDisplay(ex);
+            }
         }
     }
 }

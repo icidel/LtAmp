@@ -34,7 +34,8 @@
             buttonSelectPreset = new Button();
             buttonAmpConnect = new Button();
             buttonAmpDisconnect = new Button();
-            richTextBoxAmpConnection = new RichTextBox();
+            buttonAmpConnectionInfo = new Button();
+            labelConnectionInfo = new Label();
             SuspendLayout();
             // 
             // buttonLoad
@@ -88,14 +89,24 @@
             buttonAmpDisconnect.UseVisualStyleBackColor = true;
             buttonAmpDisconnect.Click += buttonAmpDisconnect_Click;
             // 
-            // richTextBoxAmpConnection
+            // buttonAmpConnectionInfo
             // 
-            richTextBoxAmpConnection.Location = new Point(12, 70);
-            richTextBoxAmpConnection.Name = "richTextBoxAmpConnection";
-            richTextBoxAmpConnection.ReadOnly = true;
-            richTextBoxAmpConnection.Size = new Size(158, 96);
-            richTextBoxAmpConnection.TabIndex = 3;
-            richTextBoxAmpConnection.Text = "";
+            buttonAmpConnectionInfo.Location = new Point(12, 172);
+            buttonAmpConnectionInfo.Name = "buttonAmpConnectionInfo";
+            buttonAmpConnectionInfo.Size = new Size(158, 23);
+            buttonAmpConnectionInfo.TabIndex = 0;
+            buttonAmpConnectionInfo.Text = "Connection info";
+            buttonAmpConnectionInfo.UseVisualStyleBackColor = true;
+            buttonAmpConnectionInfo.Click += buttonAmpConnectionInfo_Click;
+            // 
+            // labelConnectionInfo
+            // 
+            labelConnectionInfo.AutoSize = true;
+            labelConnectionInfo.Location = new Point(12, 154);
+            labelConnectionInfo.Name = "labelConnectionInfo";
+            labelConnectionInfo.Size = new Size(86, 15);
+            labelConnectionInfo.TabIndex = 3;
+            labelConnectionInfo.Text = "Not connected";
             // 
             // FormMain
             // 
@@ -103,9 +114,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DarkGray;
             ClientSize = new Size(784, 361);
-            Controls.Add(richTextBoxAmpConnection);
+            Controls.Add(labelConnectionInfo);
             Controls.Add(buttonSelectPreset);
             Controls.Add(listBoxPresets);
+            Controls.Add(buttonAmpConnectionInfo);
             Controls.Add(buttonAmpDisconnect);
             Controls.Add(buttonAmpConnect);
             Controls.Add(buttonLoad);
@@ -118,6 +130,7 @@
             Text = "LtAmpGui";
             Load += Form1_Load;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -127,6 +140,7 @@
         private Button buttonSelectPreset;
         private Button buttonAmpConnect;
         private Button buttonAmpDisconnect;
-        private RichTextBox richTextBoxAmpConnection;
+        private Button buttonAmpConnectionInfo;
+        private Label labelConnectionInfo;
     }
 }
