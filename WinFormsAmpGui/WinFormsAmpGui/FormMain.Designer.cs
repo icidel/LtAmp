@@ -34,7 +34,6 @@
             buttonSelectPreset = new Button();
             buttonAmpConnect = new Button();
             buttonAmpDisconnect = new Button();
-            buttonAmpConnectionInfo = new Button();
             labelConnectionInfo = new Label();
             SuspendLayout();
             // 
@@ -73,7 +72,7 @@
             // 
             buttonAmpConnect.Location = new Point(12, 12);
             buttonAmpConnect.Name = "buttonAmpConnect";
-            buttonAmpConnect.Size = new Size(158, 23);
+            buttonAmpConnect.Size = new Size(150, 23);
             buttonAmpConnect.TabIndex = 0;
             buttonAmpConnect.Text = "Connect";
             buttonAmpConnect.UseVisualStyleBackColor = true;
@@ -83,26 +82,17 @@
             // 
             buttonAmpDisconnect.Location = new Point(12, 41);
             buttonAmpDisconnect.Name = "buttonAmpDisconnect";
-            buttonAmpDisconnect.Size = new Size(158, 23);
+            buttonAmpDisconnect.Size = new Size(150, 23);
             buttonAmpDisconnect.TabIndex = 0;
             buttonAmpDisconnect.Text = "Disconnect";
             buttonAmpDisconnect.UseVisualStyleBackColor = true;
             buttonAmpDisconnect.Click += buttonAmpDisconnect_Click;
             // 
-            // buttonAmpConnectionInfo
-            // 
-            buttonAmpConnectionInfo.Location = new Point(12, 172);
-            buttonAmpConnectionInfo.Name = "buttonAmpConnectionInfo";
-            buttonAmpConnectionInfo.Size = new Size(158, 23);
-            buttonAmpConnectionInfo.TabIndex = 0;
-            buttonAmpConnectionInfo.Text = "Connection info";
-            buttonAmpConnectionInfo.UseVisualStyleBackColor = true;
-            buttonAmpConnectionInfo.Click += buttonAmpConnectionInfo_Click;
-            // 
             // labelConnectionInfo
             // 
             labelConnectionInfo.AutoSize = true;
-            labelConnectionInfo.Location = new Point(12, 154);
+            labelConnectionInfo.Location = new Point(12, 67);
+            labelConnectionInfo.MaximumSize = new Size(150, 0);
             labelConnectionInfo.Name = "labelConnectionInfo";
             labelConnectionInfo.Size = new Size(86, 15);
             labelConnectionInfo.TabIndex = 3;
@@ -117,7 +107,6 @@
             Controls.Add(labelConnectionInfo);
             Controls.Add(buttonSelectPreset);
             Controls.Add(listBoxPresets);
-            Controls.Add(buttonAmpConnectionInfo);
             Controls.Add(buttonAmpDisconnect);
             Controls.Add(buttonAmpConnect);
             Controls.Add(buttonLoad);
@@ -140,7 +129,6 @@
         private Button buttonSelectPreset;
         private Button buttonAmpConnect;
         private Button buttonAmpDisconnect;
-        private Button buttonAmpConnectionInfo;
         private Label labelConnectionInfo;
     }
 }

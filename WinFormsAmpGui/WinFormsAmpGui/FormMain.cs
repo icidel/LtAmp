@@ -23,8 +23,6 @@ namespace WinFormsAmpGui
 
         private void buttonLoad_Click(object sender, EventArgs e)
         {
-            // Set the ListBox to not display items in multiple columns.
-            listBoxPresets.MultiColumn = false;
             // Shutdown the painting of the ListBox as items are added.
             listBoxPresets.BeginUpdate();
 
@@ -36,9 +34,6 @@ namespace WinFormsAmpGui
             }
             // Allow the ListBox to repaint and display the new items.
             listBoxPresets.EndUpdate();
-
-            // Select first item from the ListBox.
-            listBoxPresets.SetSelected(1, true);
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -50,18 +45,19 @@ namespace WinFormsAmpGui
         {
 
         }
-        // MUST ASYNC OPENING AND CLOSING
-        private void buttonAmpConnect_Click(object sender, EventArgs e)
+        private async void buttonAmpConnect_Click(object sender, EventArgs e)
         {
-            _amplifier.Open(false);
+            await _amplifier.OpenAsync(false);
+            AmpConnectionInfo();
         }
 
         private void buttonAmpDisconnect_Click(object sender, EventArgs e)
         {
             _amplifier.Close();
+            AmpConnectionInfo();
         }
 
-        private async void buttonAmpConnectionInfo_Click(object sender, EventArgs e)
+        private async void AmpConnectionInfo()
         {
             try
             {
