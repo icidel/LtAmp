@@ -1,0 +1,33 @@
+<Application x:Class="LtAmpDotNet.Gui.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:LtAmpDotNet.Gui"
+             xmlns:selectors="clr-namespace:LtAmpDotNet.Gui.Selectors"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <DataTemplate x:Key="SliderTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Slider Value="{Binding CurrentValue}" Minimum="{Binding Min}" Maximum="{Binding Max}" Width="200"/>
+                <TextBlock Text="{Binding CurrentValue, StringFormat={}{0:F2}}" Margin="5,0,0,0"/>
+                <TextBlock Text="{Binding ReferenceValue, StringFormat=(Ref: {0:F2})}" Margin="5,0,0,0" Foreground="Gray"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ComboBoxTemplate">
+            <StackPanel Orientation="Horizontal">
+                <ComboBox ItemsSource="{Binding ListItems}" SelectedValue="{Binding CurrentValue}" Width="200"/>
+                <TextBlock Text="{Binding ReferenceValue, StringFormat=(Ref: {0})}" Margin="5,0,0,0" Foreground="Gray"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="CheckBoxTemplate">
+            <StackPanel Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding CurrentValue}"/>
+                <TextBlock Text="{Binding ReferenceValue, StringFormat=(Ref: {0})}" Margin="5,0,0,0" Foreground="Gray"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <selectors:ParameterTemplateSelector x:Key="ParameterTemplateSelector"
+                                             SliderTemplate="{StaticResource SliderTemplate}"
+                                             ComboBoxTemplate="{StaticResource ComboBoxTemplate}"
+                                             CheckBoxTemplate="{StaticResource CheckBoxTemplate}"/>
+    </Application.Resources>
+</Application>

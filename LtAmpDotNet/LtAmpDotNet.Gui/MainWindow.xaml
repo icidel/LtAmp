@@ -1,0 +1,46 @@
+<Window x:Class="LtAmpDotNet.Gui.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:gui="clr-namespace:LtAmpDotNet.Gui"
+        xmlns:controls="clr-namespace:LtAmpDotNet.Gui.Controls"
+        mc:Ignorable="d"
+        Title="LT Amp Control" Height="450" Width="800">
+    <DockPanel>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock x:Name="ConnectionStatusText" Text="Connecting to amplifier..."/>
+            </StatusBarItem>
+        </StatusBar>
+        <Grid>
+            <StackPanel Orientation="Vertical" Margin="10">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Preset Number:" FontWeight="Bold" Margin="0,0,5,0"/>
+                    <TextBlock x:Name="PresetNumberText" Text="--"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <TextBlock Text="Preset Name:" FontWeight="Bold" Margin="0,0,5,0"/>
+                    <TextBlock x:Name="PresetNameText" Text="--"/>
+                </StackPanel>
+                <TabControl Margin="0,10,0,0">
+                    <TabItem Header="Amplifier">
+                        <controls:AmplifierControl x:Name="AmplifierControlView"/>
+                    </TabItem>
+                    <TabItem Header="Stomp">
+                        <controls:StompControl x:Name="StompControlView"/>
+                    </TabItem>
+                    <TabItem Header="Modulation">
+                        <controls:ModulationControl x:Name="ModulationControlView"/>
+                    </TabItem>
+                    <TabItem Header="Delay">
+                        <controls:DelayControl x:Name="DelayControlView"/>
+                    </TabItem>
+                    <TabItem Header="Reverb">
+                        <controls:ReverbControl x:Name="ReverbControlView"/>
+                    </TabItem>
+                </TabControl>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</Window>
