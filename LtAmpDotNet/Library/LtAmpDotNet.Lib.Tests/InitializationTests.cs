@@ -5,19 +5,26 @@ using Newtonsoft.Json;
 
 namespace LtAmpDotNet.Lib.Tests
 {
-    [TestFixture]
+    [TestFixture("mustang-lt-25")]
+    [TestFixture("mustang-lt-50")]
     public class InitializationTests
     {
         private const bool useMock = true;
+        private readonly string _productId;
         private LtAmplifier amp;
         private MockDeviceState mockDeviceState;
 
         public delegate void TestCallback(bool isConnected);
 
+        public InitializationTests(string productId)
+        {
+            _productId = productId;
+        }
+
         [OneTimeSetUp]
         public void Setup()
         {
-            mockDeviceState = MockDeviceState.Load();
+            mockDeviceState = MockDeviceState.Load(_productId);
             amp = useMock ? new LtAmplifier(new MockHidDevice(mockDeviceState))
                 : new LtAmplifier(new UsbAmpDevice());
         }

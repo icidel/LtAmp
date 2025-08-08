@@ -21,6 +21,12 @@ namespace LtAmpDotNet.Lib.Device
         /// <summary>Default product ID to connect to</summary>
         public const int PRODUCT_ID = 0x0037;
 
+        public static readonly List<SupportedDevice> SupportedDevices = new List<SupportedDevice>
+        {
+            new SupportedDevice { VendorId = 0x1ed8, ProductId = 0x0037, ProductName = "Fender Mustang LT25" },
+            new SupportedDevice { VendorId = 0x1ed8, ProductId = 0x0036, ProductName = "Fender Mustang LT50" }
+        };
+
         #endregion Constants
 
         #region Public Properties
@@ -117,7 +123,14 @@ namespace LtAmpDotNet.Lib.Device
                 try
                 {
                     DeviceList.Local.Changed -= UsbDevices_Changed;
-                    _device = DeviceList.Local.GetHidDeviceOrNull(VENDOR_ID, PRODUCT_ID);
+                    foreach (var supportedDevice in SupportedDevices)
+                    {
+                        _device = DeviceList.Local.GetHidDeviceOrNull(supportedDevice.VendorId, supportedDevice.ProductId);
+                        if (_device != null)
+                        {
+                            break;
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
