@@ -19,10 +19,14 @@ namespace LtAmpDotNet.Lib.Device
         public int CurrentLoadedPreset { set => CurrentPresetIndex = value; }
         public int CurrentDisplayedPreset { set => CurrentPresetIndex = value; }
 
-        public static MockDeviceState Load()
+        public static MockDeviceState Load(string productId = "mustang-lt-25")
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
             string resourceName = "LtAmpDotNet.Lib.Device.mockAmpState.json";
+            if (productId == "mustang-lt-50")
+            {
+                resourceName = "LtAmpDotNet.Lib.Device.mockAmpState-LT50.json";
+            }
             using (Stream stream = assembly.GetManifestResourceStream(resourceName)!)
             {
                 using (StreamReader reader = new(stream))
