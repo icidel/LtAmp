@@ -20,8 +20,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Device\mockAmpState.json" />
-    <None Remove="Device\mockAmpState-LT50.json" />
     <None Remove="Resources\JsonDefinitions\mustang\dsp_units\dsp_units.json" />
     <None Remove="Resources\JsonDefinitions\mustang\presets\default_presets.json" />
     <None Remove="Resources\JsonDefinitions\mustang\profile.json" />
@@ -32,12 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Device\mockAmpState.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Device\mockAmpState-LT50.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Resources\JsonDefinitions\mustang\dsp_units\dsp_units.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>

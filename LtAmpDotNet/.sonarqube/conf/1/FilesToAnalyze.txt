@@ -97,7 +97,6 @@ C:\Users\brent\OneDrive\Projects\FenderTone\LtAmp\LtAmpDotNet\Library\LtAmpDotNe
 C:\Users\brent\OneDrive\Projects\FenderTone\LtAmp\LtAmpDotNet\Library\LtAmpDotNet.Lib\Model\Protobuf\UsbGainRequest.cs
 C:\Users\brent\OneDrive\Projects\FenderTone\LtAmp\LtAmpDotNet\Library\LtAmpDotNet.Lib\Model\Protobuf\UsbGainSet.cs
 C:\Users\brent\OneDrive\Projects\FenderTone\LtAmp\LtAmpDotNet\Library\LtAmpDotNet.Lib\Model\Protobuf\UsbGainStatus.cs
-C:\Users\brent\OneDrive\Projects\FenderTone\LtAmp\LtAmpDotNet\Library\LtAmpDotNet.Lib\Device\mockAmpState.json
 C:\Users\brent\OneDrive\Projects\FenderTone\LtAmp\LtAmpDotNet\Library\LtAmpDotNet.Lib\Resources\JsonDefinitions\mustang\dsp_units\dsp_units.json
 C:\Users\brent\OneDrive\Projects\FenderTone\LtAmp\LtAmpDotNet\Library\LtAmpDotNet.Lib\Resources\JsonDefinitions\mustang\presets\default_presets.json
 C:\Users\brent\OneDrive\Projects\FenderTone\LtAmp\LtAmpDotNet\Library\LtAmpDotNet.Lib\Resources\JsonDefinitions\mustang\profile.json
