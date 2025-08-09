@@ -15,7 +15,7 @@ A cross-platform GUI is in the roadmap.
 Initally, this has been developed in .NET Core to allow for quick scaffolding of the protocol.
 
 ### Future plans:
-- Cross-platform GUI
+- Cross-platform GUI : partial implementation done on Windows by icidel
 - Import/export presets to/from files for sharing
 - Integrated preset library to store an unlimited number of presets in the computer
 - Footswitch "playlists", using a sequence of presets to be cycled through
@@ -24,4 +24,5 @@ Initally, this has been developed in .NET Core to allow for quick scaffolding of
 - MIDI control of effect parameters
 - Integrated VU meter to monitor sound levels from the USB audio inteface for volume leveling across presets (and maybe a spectrogram if the latency isnt too bad)
 - Copy and paste effect units between presets
+
 
