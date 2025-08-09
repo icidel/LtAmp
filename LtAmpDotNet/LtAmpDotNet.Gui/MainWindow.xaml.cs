@@ -1,3 +1,4 @@
+using Google.Protobuf;
 using LtAmpDotNet.Gui.ViewModels;
 using LtAmpDotNet.Lib;
 using LtAmpDotNet.Lib.Device;
@@ -34,7 +35,7 @@ namespace LtAmpDotNet.Gui
         {
             await Task.Run(async () =>
             {
-                while (_amp == null || !_amp.IsDeviceOpen)
+                while (_amp == null || !_amp.IsOpen)
                 {
                     try
                     {
@@ -45,7 +46,7 @@ namespace LtAmpDotNet.Gui
                         _amp = new LtAmplifier(new UsbAmpDevice());
                         await _amp.OpenAsync();
 
-                        if (_amp.IsDeviceOpen)
+                        if (_amp.IsOpen)
                         {
                             await Dispatcher.InvokeAsync(() => {
                                 ConnectionStatusText.Text = "Amplifier connected.";
@@ -69,17 +70,20 @@ namespace LtAmpDotNet.Gui
         }
 
         private async void Amp_CurrentLoadedPresetIndexStatusMessageReceived(object? sender, Lib.Events.FenderMessageEventArgs e)
+
         {
-            if (e.Message is CurrentLoadedPresetIndexStatus presetIndex)
+            if (e.Message?.TypeCase == FenderMessageLT.TypeOneofCase.CurrentLoadedPresetIndexStatus)
             {
-                var preset = Preset.FromString((await _amp!.GetPresetAsync(presetIndex.PresetIndex)).Data);
+                CurrentLoadedPresetIndexStatus presetStatus = e.Message.CurrentLoadedPresetIndexStatus;
+
+                var preset = Preset.FromString((await _amp!.GetPresetAsync(presetStatus.CurrentLoadedPresetIndex)).Data);
                 if (preset != null)
                 {
                     _referencePreset = JsonConvert.DeserializeObject<Preset>(JsonConvert.SerializeObject(preset));
 
                     await Dispatcher.InvokeAsync(() =>
                     {
-                        PresetNumberText.Text = presetIndex.PresetIndex.ToString();
+                        PresetNumberText.Text = presetStatus.CurrentLoadedPresetIndex.ToString();
                         PresetNameText.Text = preset.Info.DisplayNameRaw;
 
                         var ampNode = preset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.amp);
@@ -113,8 +117,10 @@ namespace LtAmpDotNet.Gui
 
         private void Amp_DspUnitParameterStatusMessageReceived(object? sender, Lib.Events.FenderMessageEventArgs e)
         {
-            if (e.Message is DspUnitParameterStatus status)
+            if (e.Message?.TypeCase == FenderMessageLT.TypeOneofCase.DspUnitParameterStatus)
             {
+                DspUnitParameterStatus status = e.Message.DspUnitParameterStatus;
+            
                 Dispatcher.InvokeAsync(() =>
                 {
                     var nodeVms = new[] { AmplifierControlView.DataContext as NodeViewModel, StompControlView.DataContext as NodeViewModel, ModulationControlView.DataContext as NodeViewModel, DelayControlView.DataContext as NodeViewModel, ReverbControlView.DataContext as NodeViewModel };

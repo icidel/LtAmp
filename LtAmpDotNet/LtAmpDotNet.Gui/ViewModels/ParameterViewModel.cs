@@ -19,7 +19,8 @@ namespace LtAmpDotNet.Gui.ViewModels
             get => _currentParameter.Value;
             set
             {
-                if (_currentParameter.Value != value)
+                var oldValue = _currentParameter.Value;
+                if (oldValue is not null && false == oldValue.Equals(value) || oldValue is null && value is null)
                 {
                     _currentParameter.Value = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentValue)));
@@ -27,10 +28,10 @@ namespace LtAmpDotNet.Gui.ViewModels
             }
         }
         public object ReferenceValue => _referenceParameter.Value;
-        public string ControlType => _uiParameter.ControlType;
-        public string[] ListItems => _uiParameter.ListItems;
-        public double Min => _uiParameter.Min;
-        public double Max => _uiParameter.Max;
+        public string ControlType => _uiParameter.ControlType.Value.ToString();
+        public string[] ListItems => _uiParameter.ListItems.ToArray<string>();
+        public double Min => _uiParameter.Min.Value;
+        public double Max => _uiParameter.Max.Value;
 
         public ParameterViewModel(DspUnitParameter currentParameter, DspUnitParameter referenceParameter, DspUnitUiParameter uiParameter)
         {

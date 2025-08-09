@@ -20,7 +20,7 @@ namespace LtAmpDotNet.Gui.Tests
             var nodeVm = new NodeViewModel(ampNode, refAmpNode);
             var gainParamVm = nodeVm.Parameters.Single(p => p.ControlId == "gain");
             var initialValue = gainParamVm.CurrentValue;
-
+            
             var status = new DspUnitParameterStatus
             {
                 NodeId = "amp",
@@ -41,8 +41,8 @@ namespace LtAmpDotNet.Gui.Tests
 
 
             // Assert
-            Assert.That(gainParamVm.CurrentValue, Is.Not.EqualTo(initialValue));
-            Assert.That(gainParamVm.CurrentValue, Is.EqualTo(0.75f));
+            Assert.That((float) gainParamVm.CurrentValue, Is.Not.EqualTo((float) initialValue));
+            Assert.That((float) gainParamVm.CurrentValue, Is.EqualTo(0.75f));
         }
     }
 }
