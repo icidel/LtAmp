@@ -20,12 +20,6 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
@@ -43,7 +37,7 @@
             buttonLoad.Name = "buttonLoad";
             buttonLoad.Size = new Size(200, 23);
             buttonLoad.TabIndex = 0;
-            buttonLoad.Text = "Load local presets";
+            buttonLoad.Text = "Charger les presets locaux";
             buttonLoad.UseVisualStyleBackColor = true;
             buttonLoad.Click += buttonLoad_Click;
             // 
@@ -64,7 +58,8 @@
             buttonSelectPreset.Name = "buttonSelectPreset";
             buttonSelectPreset.Size = new Size(200, 23);
             buttonSelectPreset.TabIndex = 2;
-            buttonSelectPreset.Text = "Select preset";
+            buttonSelectPreset.Enabled = false;
+            buttonSelectPreset.Text = "Aucun preset sélectionné";
             buttonSelectPreset.UseVisualStyleBackColor = true;
             buttonSelectPreset.Click += buttonSelectPreset_Click;
             // 
@@ -74,7 +69,7 @@
             buttonAmpConnect.Name = "buttonAmpConnect";
             buttonAmpConnect.Size = new Size(150, 23);
             buttonAmpConnect.TabIndex = 0;
-            buttonAmpConnect.Text = "Connect";
+            buttonAmpConnect.Text = "Connecter";
             buttonAmpConnect.UseVisualStyleBackColor = true;
             buttonAmpConnect.Click += buttonAmpConnect_Click;
             // 
@@ -84,7 +79,7 @@
             buttonAmpDisconnect.Name = "buttonAmpDisconnect";
             buttonAmpDisconnect.Size = new Size(150, 23);
             buttonAmpDisconnect.TabIndex = 0;
-            buttonAmpDisconnect.Text = "Disconnect";
+            buttonAmpDisconnect.Text = "Déconnecter";
             buttonAmpDisconnect.UseVisualStyleBackColor = true;
             buttonAmpDisconnect.Click += buttonAmpDisconnect_Click;
             // 
@@ -96,7 +91,7 @@
             labelConnectionInfo.Name = "labelConnectionInfo";
             labelConnectionInfo.Size = new Size(86, 15);
             labelConnectionInfo.TabIndex = 3;
-            labelConnectionInfo.Text = "Not connected";
+            labelConnectionInfo.Text = "Non connecté";
             // 
             // FormMain
             // 
@@ -121,8 +116,6 @@
             ResumeLayout(false);
             PerformLayout();
         }
-
-        #endregion
 
         private Button buttonLoad;
         private ListBox listBoxPresets;

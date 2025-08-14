@@ -117,7 +117,7 @@ namespace LtAmpDotNet.Lib.Device
                 try
                 {
                     DeviceList.Local.Changed -= UsbDevices_Changed;
-                    _device = DeviceList.Local.GetHidDeviceOrNull(VENDOR_ID, PRODUCT_ID);
+                    _device = DeviceList.Local.GetHidDeviceOrNull(VENDOR_ID);
                 }
                 catch (Exception ex)
                 {
