@@ -28,10 +28,10 @@ namespace LtAmpDotNet.Lib.Model.Profile
         public string? DisplayType { get; set; }
 
         [JsonProperty("min")]
-        public float? Min { get; set; }
+        public Double Min { get; set; }
 
         [JsonProperty("max")]
-        public float? Max { get; set; }
+        public Double Max { get; set; }
 
         [JsonProperty("taper")]
         public string? Taper { get; set; }

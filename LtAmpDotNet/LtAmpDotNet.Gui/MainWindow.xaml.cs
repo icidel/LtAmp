@@ -9,6 +9,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation;
 
 namespace LtAmpDotNet.Gui
 {
@@ -79,12 +80,12 @@ namespace LtAmpDotNet.Gui
                 var preset = Preset.FromString((await _amp!.GetPresetAsync(presetStatus.CurrentLoadedPresetIndex)).Data);
                 if (preset != null)
                 {
-                    _referencePreset = JsonConvert.DeserializeObject<Preset>(JsonConvert.SerializeObject(preset));
+                    _referencePreset = preset;
 
                     await Dispatcher.InvokeAsync(() =>
                     {
                         PresetNumberText.Text = presetStatus.CurrentLoadedPresetIndex.ToString();
-                        PresetNameText.Text = preset.Info.DisplayNameRaw;
+                        PresetNameText.Text = preset.Info.FormattedDisplayName;
 
                         var ampNode = preset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.amp);
                         var refAmpNode = _referencePreset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.amp);

@@ -16,15 +16,21 @@ namespace LtAmpDotNet.Lib.Extensions.JsonConverters
 
         public override List<DspUnitParameter>? ReadJson(JsonReader reader, Type objectType, List<DspUnitParameter>? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            JObject jObject = JObject.Load(reader);
-
             List<DspUnitParameter> parameters = [];
-            foreach (KeyValuePair<string, JToken?> prop in jObject)
+            try
             {
-                parameters.Add(new DspUnitParameter() { Name = prop.Key, Value = prop.Value! });
+                JObject jObject = JObject.Load(reader);
+
+                foreach (KeyValuePair<string, JToken?> prop in jObject)
+                {
+                    parameters.Add(new DspUnitParameter() { Name = prop.Key, Value = prop.Value! });
+                }
+            }
+            catch (Exception e)
+            {
             }
 
-            return jObject != null && jObject.Count > 1 ? parameters : null;
+            return parameters;
         }
     }
 }

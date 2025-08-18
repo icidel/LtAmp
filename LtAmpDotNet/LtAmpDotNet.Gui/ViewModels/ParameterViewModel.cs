@@ -30,8 +30,24 @@ namespace LtAmpDotNet.Gui.ViewModels
         public object ReferenceValue => _referenceParameter.Value;
         public string ControlType => _uiParameter.ControlType.Value.ToString();
         public string[] ListItems => _uiParameter.ListItems.ToArray<string>();
-        public double Min => _uiParameter.Min.Value;
-        public double Max => _uiParameter.Max.Value;
+        public Double Min
+        {
+            get => _uiParameter.Min;
+            set
+            {
+                _uiParameter.Min = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Min)));
+            }
+        }
+        public Double Max
+        {
+            get => _uiParameter.Max;
+            set
+            {
+                _uiParameter.Max = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Min)));
+            }
+        }
 
         public ParameterViewModel(DspUnitParameter currentParameter, DspUnitParameter referenceParameter, DspUnitUiParameter uiParameter)
         {

@@ -17,11 +17,11 @@
             <StackPanel Orientation="Vertical" Margin="10">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Preset Number:" FontWeight="Bold" Margin="0,0,5,0"/>
-                    <TextBlock x:Name="PresetNumberText" Text="--"/>
+                    <TextBlock Focusable="True" x:Name="PresetNumberText" Text="--"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                     <TextBlock Text="Preset Name:" FontWeight="Bold" Margin="0,0,5,0"/>
-                    <TextBlock x:Name="PresetNameText" Text="--"/>
+                    <TextBlock Focusable="True" x:Name="PresetNameText" Text="--"/>
                 </StackPanel>
                 <TabControl Margin="0,10,0,0">
                     <TabItem Header="Amplifier">
