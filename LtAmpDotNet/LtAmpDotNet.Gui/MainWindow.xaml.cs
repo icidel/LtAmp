@@ -51,9 +51,15 @@ namespace LtAmpDotNet.Gui
                         {
                             await Dispatcher.InvokeAsync(() => {
                                 ConnectionStatusText.Text = "Amplifier connected.";
+                                AmplifierControlView.Amp = _amp;
+                                DelayControlView.Amp = _amp;
+                                ModulationControlView.Amp = _amp;
+                                ReverbControlView.Amp = _amp;
+                                StompControlView.Amp = _amp;
                             });
                             _amp.CurrentLoadedPresetIndexStatusMessageReceived += Amp_CurrentLoadedPresetIndexStatusMessageReceived;
                             _amp.DspUnitParameterStatusMessageReceived += Amp_DspUnitParameterStatusMessageReceived;
+                            _amp.ReplaceNodeStatusMessageReceived += Amp_ReplaceNodeStatusMessageReceived;
                             await _amp.GetCurrentPresetAsync();
                         }
                     }
@@ -70,8 +76,58 @@ namespace LtAmpDotNet.Gui
             });
         }
 
-        private async void Amp_CurrentLoadedPresetIndexStatusMessageReceived(object? sender, Lib.Events.FenderMessageEventArgs e)
+        private async void Amp_ReplaceNodeStatusMessageReceived(object? sender, Lib.Events.FenderMessageEventArgs e)
+        {
+            if (e.Message?.TypeCase == FenderMessageLT.TypeOneofCase.ReplaceNodeStatus)
+            {
+                if (_referencePreset != null)
+                {
+                    var preset = Preset.FromString((await _amp!.GetPresetAsync(_referencePreset.Info.Id)).Data);
+                    if (preset != null)
+                    {
+                        UpdateUiWithPreset(preset, _referencePreset.Info.Id);
+                    }
+                }
+            }
+        }
 
+        private void UpdateUiWithPreset(Preset preset, int presetIndex)
+        {
+            _referencePreset = preset;
+
+            Dispatcher.InvokeAsync(() =>
+            {
+                PresetNumberText.Text = presetIndex.ToString();
+                PresetNameText.Text = preset.Info.FormattedDisplayName;
+
+                var ampNode = preset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.amp);
+                var refAmpNode = _referencePreset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.amp);
+                if (ampNode != null && refAmpNode != null)
+                    AmplifierControlView.DataContext = new NodeViewModel(ampNode, refAmpNode);
+
+                var stompNode = preset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.stomp);
+                var refStompNode = _referencePreset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.stomp);
+                if (stompNode != null && refStompNode != null)
+                    StompControlView.DataContext = new NodeViewModel(stompNode, refStompNode);
+
+                var modNode = preset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.mod);
+                var refModNode = _referencePreset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.mod);
+                if (modNode != null && refModNode != null)
+                    ModulationControlView.DataContext = new NodeViewModel(modNode, refModNode);
+
+                var delayNode = preset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.delay);
+                var refDelayNode = _referencePreset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.delay);
+                if (delayNode != null && refDelayNode != null)
+                    DelayControlView.DataContext = new NodeViewModel(delayNode, refDelayNode);
+
+                var reverbNode = preset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.reverb);
+                var refReverbNode = _referencePreset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.reverb);
+                if (reverbNode != null && refReverbNode != null)
+                    ReverbControlView.DataContext = new NodeViewModel(reverbNode, refReverbNode);
+            });
+        }
+
+        private async void Amp_CurrentLoadedPresetIndexStatusMessageReceived(object? sender, Lib.Events.FenderMessageEventArgs e)
         {
             if (e.Message?.TypeCase == FenderMessageLT.TypeOneofCase.CurrentLoadedPresetIndexStatus)
             {
@@ -80,38 +136,7 @@ namespace LtAmpDotNet.Gui
                 var preset = Preset.FromString((await _amp!.GetPresetAsync(presetStatus.CurrentLoadedPresetIndex)).Data);
                 if (preset != null)
                 {
-                    _referencePreset = preset;
-
-                    await Dispatcher.InvokeAsync(() =>
-                    {
-                        PresetNumberText.Text = presetStatus.CurrentLoadedPresetIndex.ToString();
-                        PresetNameText.Text = preset.Info.FormattedDisplayName;
-
-                        var ampNode = preset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.amp);
-                        var refAmpNode = _referencePreset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.amp);
-                        if (ampNode != null && refAmpNode != null)
-                            AmplifierControlView.DataContext = new NodeViewModel(ampNode, refAmpNode);
-
-                        var stompNode = preset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.stomp);
-                        var refStompNode = _referencePreset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.stomp);
-                        if (stompNode != null && refStompNode != null)
-                            StompControlView.DataContext = new NodeViewModel(stompNode, refStompNode);
-
-                        var modNode = preset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.mod);
-                        var refModNode = _referencePreset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.mod);
-                        if (modNode != null && refModNode != null)
-                            ModulationControlView.DataContext = new NodeViewModel(modNode, refModNode);
-
-                        var delayNode = preset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.delay);
-                        var refDelayNode = _referencePreset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.delay);
-                        if (delayNode != null && refDelayNode != null)
-                            DelayControlView.DataContext = new NodeViewModel(delayNode, refDelayNode);
-
-                        var reverbNode = preset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.reverb);
-                        var refReverbNode = _referencePreset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.reverb);
-                        if (reverbNode != null && refReverbNode != null)
-                            ReverbControlView.DataContext = new NodeViewModel(reverbNode, refReverbNode);
-                    });
+                    UpdateUiWithPreset(preset, presetStatus.CurrentLoadedPresetIndex);
                 }
             }
         }
@@ -121,7 +146,7 @@ namespace LtAmpDotNet.Gui
             if (e.Message?.TypeCase == FenderMessageLT.TypeOneofCase.DspUnitParameterStatus)
             {
                 DspUnitParameterStatus status = e.Message.DspUnitParameterStatus;
-            
+
                 Dispatcher.InvokeAsync(() =>
                 {
                     var nodeVms = new[] { AmplifierControlView.DataContext as NodeViewModel, StompControlView.DataContext as NodeViewModel, ModulationControlView.DataContext as NodeViewModel, DelayControlView.DataContext as NodeViewModel, ReverbControlView.DataContext as NodeViewModel };

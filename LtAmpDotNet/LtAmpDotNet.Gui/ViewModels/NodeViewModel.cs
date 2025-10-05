@@ -6,12 +6,14 @@ namespace LtAmpDotNet.Gui.ViewModels
 {
     public class NodeViewModel
     {
+        public string FenderId{ get; }
         public NodeIdType NodeId { get; }
         public string DisplayName { get; }
         public ObservableCollection<ParameterViewModel> Parameters { get; }
 
         public NodeViewModel(Node currentNode, Node referenceNode)
         {
+            FenderId = currentNode.FenderId;
             NodeId = currentNode.NodeId;
             DisplayName = currentNode.Definition.DisplayName;
             Parameters = new ObservableCollection<ParameterViewModel>();
