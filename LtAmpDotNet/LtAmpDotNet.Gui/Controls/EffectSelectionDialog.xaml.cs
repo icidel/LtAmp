@@ -13,7 +13,7 @@ namespace LtAmpDotNet.Gui.Controls
         {
             InitializeComponent();
             EffectsListBox.ItemsSource = effects;
-            EffectsListBox.SelectedItem = effects.Where(x => x.FenderId == fenderId).First();
+            EffectsListBox.SelectedItem = effects.Where(x => x.FenderId == fenderId).FirstOrDefault(effects.First());
             lastEffectFenderId = fenderId;
         }
 

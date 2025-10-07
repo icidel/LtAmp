@@ -24,7 +24,7 @@ namespace LtAmpDotNet.Gui.Controls
         private void ChangeEffect_Click(object sender, RoutedEventArgs e)
         {
             var availableEffects = LtAmplifier.DspUnitDefinitions?.Where(x => x.Info?.SubCategory == "delay");
-            if (availableEffects is null) return;
+            if (availableEffects?.First() is null) return;
 
             NodeViewModel node = DataContext as NodeViewModel;
 
@@ -33,7 +33,7 @@ namespace LtAmpDotNet.Gui.Controls
                 Owner = Window.GetWindow(this)
             };
 
-            if (dialog.ShowDialog() == true)
+            if (dialog.ShowDialog() == true && dialog.SelectedEffect?.FenderId != null)
             {
                 Amp.ReplaceNode(NodeIdType.delay, dialog.SelectedEffect.FenderId);
             }

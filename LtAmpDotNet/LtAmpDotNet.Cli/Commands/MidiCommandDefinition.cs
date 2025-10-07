@@ -139,14 +139,20 @@ namespace LtAmpDotNet.Cli.Commands
                                 currentParameter.Value = currentParameterDefinition.ListItems!.ToArray()[itemNumber];
                                 break;
                             case DspUnitParameterDataType.Integer:
+                                // FIXME !!! wrong double value
+                            /*
                                 currentParameter.Value = currentParameterDefinition.NumTicks > 0
                                     ? (int)Math.Round(((float)value).Remap(0, 128, 0, 91), 0)
                                     : (dynamic)(int)Math.Round(((float)value).Remap(0, 128, currentParameterDefinition.Min!.Value, currentParameterDefinition.Max!.Value), 0);
+                            */
                                 break;
                             case DspUnitParameterDataType.Float:
+                                // FIXME !!! wrong float value
+                            /*
                                 currentParameter.Value = currentParameterDefinition.NumTicks > 0
                                     ? ((float)value).Remap(0, 128, 0, 91)
                                     : (dynamic)((float)value).Remap(0, 128, currentParameterDefinition.Min!.Value, currentParameterDefinition.Max!.Value);
+                                */
                                 break;
                         }
                         Amp.SetDspUnitParameter(nodeId, new DspUnitParameter() { Name = currentParameterDefinition.ControlId, Value = value });

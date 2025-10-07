@@ -8,7 +8,7 @@
         <DataTemplate x:Key="SliderTemplate">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding Name}" Width="100" VerticalAlignment="Center"/>
-                <Slider Value="{Binding CurrentValue}" Minimum="{Binding Min}" Maximum="{Binding Max}" Width="200"/>
+                <Slider SemanticProperties.Description="{Binding Name}" Value="{Binding CurrentValue}" Minimum="{Binding Min}" Maximum="{Binding Max}" Width="200"/>
                 <TextBlock Text="{Binding CurrentValue, StringFormat={}{0:F2}}" Margin="5,0,0,0"/>
                 <TextBlock Text="{Binding ReferenceValue, StringFormat=(Ref: {0:F2})}" Margin="5,0,0,0" Foreground="Gray"/>
             </StackPanel>

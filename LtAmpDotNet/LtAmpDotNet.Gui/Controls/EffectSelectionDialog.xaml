@@ -13,8 +13,9 @@
                 <Button Content="Cancel" Width="75" IsCancel="True" Margin="5,0,0,0"/>
             </StackPanel>
             <ListBox x:Name="EffectsListBox"
-                     DisplayMemberPath="Name"
-                     SelectionMode="Single"/>
+                     DisplayMemberPath="DisplayName"
+                     SelectionMode="Single">
+            </ListBox>
         </DockPanel>
     </Grid>
 </Window>

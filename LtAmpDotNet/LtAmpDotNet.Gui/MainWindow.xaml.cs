@@ -80,24 +80,30 @@ namespace LtAmpDotNet.Gui
         {
             if (e.Message?.TypeCase == FenderMessageLT.TypeOneofCase.ReplaceNodeStatus)
             {
-                if (_referencePreset != null)
+                CurrentLoadedPresetIndexStatus presetStatus = e.Message.CurrentLoadedPresetIndexStatus;
+
+                var preset = Preset.FromString((await _amp!.GetPresetAsync(presetStatus.CurrentLoadedPresetIndex)).Data);
+                if (preset != null)
                 {
-                    var preset = Preset.FromString((await _amp!.GetPresetAsync(_referencePreset.Info.Id)).Data);
-                    if (preset != null)
-                    {
-                        UpdateUiWithPreset(preset, _referencePreset.Info.Id);
-                    }
+                    UpdateUiWithPreset(preset);
                 }
             }
         }
 
-        private void UpdateUiWithPreset(Preset preset, int presetIndex)
+        private void UpdateWithPresetStatus(CurrentLoadedPresetIndexStatus presetStatus)
+        {
+            Dispatcher.InvokeAsync(() =>
+            {
+                PresetNumberText.Text = presetStatus.CurrentLoadedPresetIndex.ToString();
+            });
+        }
+        
+        private void UpdateUiWithPreset(Preset preset)
         {
             _referencePreset = preset;
 
             Dispatcher.InvokeAsync(() =>
             {
-                PresetNumberText.Text = presetIndex.ToString();
                 PresetNameText.Text = preset.Info.FormattedDisplayName;
 
                 var ampNode = preset.AudioGraph.Nodes.SingleOrDefault(x => x.NodeId == NodeIdType.amp);
@@ -132,11 +138,15 @@ namespace LtAmpDotNet.Gui
             if (e.Message?.TypeCase == FenderMessageLT.TypeOneofCase.CurrentLoadedPresetIndexStatus)
             {
                 CurrentLoadedPresetIndexStatus presetStatus = e.Message.CurrentLoadedPresetIndexStatus;
+                if (presetStatus != null)
+                {
+                    UpdateWithPresetStatus(presetStatus);
+                }
 
                 var preset = Preset.FromString((await _amp!.GetPresetAsync(presetStatus.CurrentLoadedPresetIndex)).Data);
                 if (preset != null)
                 {
-                    UpdateUiWithPreset(preset, presetStatus.CurrentLoadedPresetIndex);
+                    UpdateUiWithPreset(preset);
                 }
             }
         }
