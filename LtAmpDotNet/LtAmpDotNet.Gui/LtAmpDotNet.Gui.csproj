@@ -3,6 +3,10 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
+    <Version>0.1.0</Version>
+    <Authors>Laurent Asfaux</Authors>
+    <Description>A GUI to control the Fender LT series of amplifiers.</Description>
+    <Copyright>Copyright © 2025 Laurent Asfaux for GUI, # 2024 Brent %axwell for the library (dependency)</Copyright>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>

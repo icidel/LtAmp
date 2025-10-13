@@ -60,6 +60,7 @@ namespace LtAmpDotNet.Gui
                             _amp.CurrentLoadedPresetIndexStatusMessageReceived += Amp_CurrentLoadedPresetIndexStatusMessageReceived;
                             _amp.DspUnitParameterStatusMessageReceived += Amp_DspUnitParameterStatusMessageReceived;
                             _amp.ReplaceNodeStatusMessageReceived += Amp_ReplaceNodeStatusMessageReceived;
+                            _amp.MessageReceived += Amp_MessageReceived;
                             await _amp.GetCurrentPresetAsync();
                         }
                     }
@@ -73,6 +74,14 @@ namespace LtAmpDotNet.Gui
                         await Task.Delay(5000);
                     }
                 }
+            });
+        }
+
+        private async void Amp_MessageReceived(object? sender, Lib.Events.FenderMessageEventArgs e)
+        {
+            await Dispatcher.InvokeAsync(() =>
+            {
+                ConnectionStatusText.Text = "Message received: " + e.MessageType?.ToString();
             });
         }
 
