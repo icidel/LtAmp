@@ -57,11 +57,12 @@ namespace LtAmpDotNet.Gui
                                 ReverbControlView.Amp = _amp;
                                 StompControlView.Amp = _amp;
                             });
+                            _amp.CurrentPresetStatusMessageReceived += Amp_CurrentPresetStatusMessageReceived;
                             _amp.CurrentLoadedPresetIndexStatusMessageReceived += Amp_CurrentLoadedPresetIndexStatusMessageReceived;
                             _amp.DspUnitParameterStatusMessageReceived += Amp_DspUnitParameterStatusMessageReceived;
                             _amp.ReplaceNodeStatusMessageReceived += Amp_ReplaceNodeStatusMessageReceived;
                             _amp.MessageReceived += Amp_MessageReceived;
-                            await _amp.GetCurrentPresetAsync();
+                            _amp.GetCurrentPreset();
                         }
                     }
                     catch (Exception)
@@ -81,6 +82,7 @@ namespace LtAmpDotNet.Gui
         {
             await Dispatcher.InvokeAsync(() =>
             {
+                System.Diagnostics.Debug.WriteLine("Message received: " + e.MessageType?.ToString());
                 ConnectionStatusText.Text = "Message received: " + e.MessageType?.ToString();
             });
         }
@@ -97,6 +99,19 @@ namespace LtAmpDotNet.Gui
                     UpdateUiWithPreset(preset);
                 }
             }
+        }
+
+        private void UpdateWithPresetStatus(CurrentPresetStatus presetStatus)
+        {
+            Dispatcher.InvokeAsync(() =>
+            {
+                if (presetStatus.HasCurrentSlotIndex)
+                {
+                    PresetNumberText.Text = presetStatus.CurrentSlotIndex.ToString();
+                } else {
+                    PresetNumberText.Text = "";
+                }
+            });
         }
 
         private void UpdateWithPresetStatus(CurrentLoadedPresetIndexStatus presetStatus)
@@ -141,6 +156,26 @@ namespace LtAmpDotNet.Gui
                     ReverbControlView.DataContext = new NodeViewModel(reverbNode, refReverbNode);
             });
         }
+
+        
+        private async void Amp_CurrentPresetStatusMessageReceived(object? sender, Lib.Events.FenderMessageEventArgs e)
+        {
+            if (e.Message?.TypeCase == FenderMessageLT.TypeOneofCase.CurrentPresetStatus)
+            {
+                CurrentPresetStatus presetStatus = e.Message.CurrentPresetStatus;
+                if (presetStatus != null)
+                {
+                    UpdateWithPresetStatus(presetStatus);
+                }
+
+                var preset = Preset.FromString(e.Message!.CurrentPresetStatus.CurrentPresetData)!;
+                if (preset != null)
+                {
+                    UpdateUiWithPreset(preset);
+                }
+            }
+        }
+
 
         private async void Amp_CurrentLoadedPresetIndexStatusMessageReceived(object? sender, Lib.Events.FenderMessageEventArgs e)
         {

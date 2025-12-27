@@ -2,6 +2,8 @@
 using LtAmpDotNet.Lib.Model.Profile;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
 
 namespace LtAmpDotNet.Lib.Model.Preset
 {
@@ -33,7 +35,6 @@ namespace LtAmpDotNet.Lib.Model.Preset
         }
 
         [JsonProperty("FenderId")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Maintainability", "CA1507:Use nameof to express symbol names", Justification = "Json property is not specificaly tied to the variable name; it refers to the name in the JSON file.")]
         public string? FenderId { get; set; }
 
         [JsonProperty("nodeId")]
@@ -45,7 +46,7 @@ namespace LtAmpDotNet.Lib.Model.Preset
 
         [JsonProperty("dspUnitParameters")]
         [JsonConverter(typeof(DspUnitParameterCollectionConverter))]
-        public List<DspUnitParameter>? DspUnitParameters { get; set; }
+        public List<DspUnitParameter> DspUnitParameters { get; set; } = new List<DspUnitParameter> { };
 
         [JsonIgnore]
         public DspUnitDefinition Definition => LtAmplifier.DspUnitDefinitions?.FirstOrDefault(x => x.FenderId == FenderId)!;

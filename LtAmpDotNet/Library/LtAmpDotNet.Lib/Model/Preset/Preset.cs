@@ -40,6 +40,7 @@ namespace LtAmpDotNet.Lib.Model.Preset
 
         public static Preset? FromString(string json)
         {
+            System.Diagnostics.Debug.WriteLine(json);
             return JsonConvert.DeserializeObject<Preset>(json);
         }
 
