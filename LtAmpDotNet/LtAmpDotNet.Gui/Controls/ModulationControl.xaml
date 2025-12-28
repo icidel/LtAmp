@@ -12,15 +12,14 @@
                 <TextBlock Focusable="true" Text="{Binding DisplayName}" FontWeight="Bold" FontSize="16"/>
                 <Button Content="Change" Margin="10,0,0,0" Click="ChangeEffect_Click"/>
             </StackPanel>
-            <ItemsControl ItemsSource="{Binding Parameters}"
-                          ItemTemplateSelector="{StaticResource ParameterTemplateSelector}"
-                          Margin="0,10,0,0">
-                <ItemsControl.ItemContainerStyle>
-                    <Style TargetType="ContentPresenter">
-                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                    </Style>
-                </ItemsControl.ItemContainerStyle>
-            </ItemsControl>
+            <DataGrid ItemsSource="{Binding Parameters}" AutoGenerateColumns="False"
+CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="False" AutomationProperties.Name=" ">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Nom" Binding="{Binding Name}" IsReadOnly='True' AutomationProperties.Name=' ' />
+                    <DataGridTextColumn Header="Actuel" Binding="{Binding CurrentValue}" AutomationProperties.Name=' ' />
+                    <DataGridTextColumn Header="Original" Binding="{Binding ReferenceValue}" IsReadOnly='True' AutomationProperties.Name=' ' />
+                </DataGrid.Columns>
+            </DataGrid>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -5,15 +5,15 @@
              xmlns:selectors="clr-namespace:LtAmpDotNet.Gui.Selectors"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <DataTemplate x:Key="FloatValueTemplate">
-            <StackPanel Orientation="Horizontal">
+        <DataTemplate x:Key="ValueTemplate">
+            <StackPanel Orientation="Horizontal" AutomationProperties.Name=" ">
                 <TextBlock x:Uid="ValueLabel" Text="{Binding Name}" Name="ValueLabel" Width="100" VerticalAlignment="Center"/>
                 <TextBlock Text="{Binding CurrentValue, StringFormat={}{0:F2}}" Margin="5,0,0,0"/>
                 <TextBlock Text="{Binding ReferenceValue, StringFormat=(Ref: {0:F2})}" Margin="5,0,0,0" Foreground="Gray"/>
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="SliderTemplate">
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" AutomationProperties.Name=" ">
                 <TextBlock x:Uid="SliderLabel" Text="{Binding Name}" Name="SliderLabel" Width="100" VerticalAlignment="Center"/>
                 <Slider AutomationProperties.LabeledBy="{Binding ElementName=SliderLabel}" Value="{Binding CurrentValue}" Minimum="{Binding Min}" Maximum="{Binding Max}" Width="200"/>
                 <TextBlock Text="{Binding CurrentValue, StringFormat={}{0:F2}}" Margin="5,0,0,0"/>
@@ -35,8 +35,8 @@
             </StackPanel>
         </DataTemplate>
 
-        <selectors:ParameterTemplateSelector x:Key="ParameterTemplateSelector"
-                                             SliderTemplate="{StaticResource FloatValueTemplate}"
+        <selectors:ParameterTemplateSelector x:Key="ParameterTemplateSelector" x:Name="_"
+                                             SliderTemplate="{StaticResource ValueTemplate}"
                                              ComboBoxTemplate="{StaticResource ComboBoxTemplate}"
                                              CheckBoxTemplate="{StaticResource CheckBoxTemplate}"/>
     </Application.Resources>

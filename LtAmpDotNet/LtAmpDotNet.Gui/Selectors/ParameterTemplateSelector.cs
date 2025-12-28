@@ -9,6 +9,7 @@ namespace LtAmpDotNet.Gui.Selectors
         public DataTemplate SliderTemplate { get; set; }
         public DataTemplate ComboBoxTemplate { get; set; }
         public DataTemplate CheckBoxTemplate { get; set; }
+        public DataTemplate ValueTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -22,6 +23,8 @@ namespace LtAmpDotNet.Gui.Selectors
                         return SliderTemplate;
                     case "listBool":
                         return CheckBoxTemplate;
+                    default:
+                        return ValueTemplate;
                 }
             }
             return base.SelectTemplate(item, container);
