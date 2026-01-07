@@ -16,8 +16,8 @@
 CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="False" AutomationProperties.Name=" ">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Nom" Binding="{Binding Name}" IsReadOnly='True' AutomationProperties.Name=' ' />
-                    <DataGridTextColumn Header="Actuel" Binding="{Binding CurrentValue}" AutomationProperties.Name=' ' />
-                    <DataGridTextColumn Header="Original" Binding="{Binding ReferenceValue}" IsReadOnly='True' AutomationProperties.Name=' ' />
+                    <DataGridTextColumn Header="Valeur" Binding="{Binding CurrentValue}" IsReadOnly='False' AutomationProperties.Name=' ' />
+                    <DataGridTextColumn Header="Originale" Binding="{Binding ReferenceValue}" IsReadOnly='True' AutomationProperties.Name=' ' />
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

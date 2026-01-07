@@ -33,20 +33,15 @@ namespace LtAmpDotNet.Gui.ViewModels
         public Double Min
         {
             get => _uiParameter.Min;
-            set
-            {
-                _uiParameter.Min = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Min)));
-            }
         }
         public Double Max
         {
             get => _uiParameter.Max;
-            set
-            {
-                _uiParameter.Max = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Min)));
-            }
+        }
+
+        public double Interval
+        {
+            get => 1 / _uiParameter.NumTicks;
         }
 
         public ParameterViewModel(DspUnitParameter currentParameter, DspUnitParameter referenceParameter, DspUnitUiParameter uiParameter)

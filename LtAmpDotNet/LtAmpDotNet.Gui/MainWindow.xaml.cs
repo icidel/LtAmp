@@ -61,6 +61,7 @@ namespace LtAmpDotNet.Gui
                             _amp.CurrentLoadedPresetIndexStatusMessageReceived += Amp_CurrentLoadedPresetIndexStatusMessageReceived;
                             _amp.DspUnitParameterStatusMessageReceived += Amp_DspUnitParameterStatusMessageReceived;
                             _amp.ReplaceNodeStatusMessageReceived += Amp_ReplaceNodeStatusMessageReceived;
+                            _amp.PresetEditedStatusMessageReceived += Amp_PresetEditedStatusMessageReceived;
                             _amp.MessageReceived += Amp_MessageReceived;
                             _amp.GetCurrentPreset();
                         }
@@ -91,18 +92,19 @@ namespace LtAmpDotNet.Gui
         {
             if (e.Message?.TypeCase == FenderMessageLT.TypeOneofCase.ReplaceNodeStatus)
             {
-                CurrentLoadedPresetIndexStatus presetStatus = e.Message.CurrentLoadedPresetIndexStatus;
+                ReplaceNodeStatus replaceNodeStatus = e.Message.ReplaceNodeStatus;
+                var fenderIdReplaced = replaceNodeStatus.HasFenderIdReplaced;
+                var nodeIdReplaced = replaceNodeStatus.HasNodeIdReplaced;
 
-                var preset = Preset.FromString((await _amp!.GetPresetAsync(presetStatus.CurrentLoadedPresetIndex)).Data);
-                if (preset != null)
-                {
-                    UpdateUiWithPreset(preset);
-                }
+                // TODO replace node in preset ? or ask for current preset status...
+                _amp.GetCurrentPresetAsync();
             }
         }
 
         private void UpdateWithPresetStatus(CurrentPresetStatus presetStatus)
         {
+            setPresetDirty(presetStatus.HasCurrentPresetDirtyStatus && presetStatus.CurrentPresetDirtyStatus);
+
             Dispatcher.InvokeAsync(() =>
             {
                 if (presetStatus.HasCurrentSlotIndex)
@@ -118,6 +120,7 @@ namespace LtAmpDotNet.Gui
         {
             Dispatcher.InvokeAsync(() =>
             {
+                setPresetDirty(false);
                 PresetNumberText.Text = presetStatus.CurrentLoadedPresetIndex.ToString();
             });
         }
@@ -228,5 +231,26 @@ namespace LtAmpDotNet.Gui
                 });
             }
         }
+
+        private void Amp_PresetEditedStatusMessageReceived(object? sender, Lib.Events.FenderMessageEventArgs e)
+        {
+            if (e.Message?.TypeCase == FenderMessageLT.TypeOneofCase.PresetEditedStatus)
+            {
+                PresetEditedStatus status = e.Message.PresetEditedStatus;
+                setPresetDirty(status.HasPresetEdited);
+            }
+        }
+
+        private void setPresetDirty(bool presetDirty)
+        {
+            Dispatcher.InvokeAsync(() =>
+            {
+                PresetDirtyState.IsChecked = presetDirty;
+            });
+        }
+
+        //private readonly Stack<PresetCHange> _undoStack = new Stack<string>();
+        //private readonly Stack<PresetCHange> _redoStack = new Stack<string>();
     }
+    
 }

@@ -34,7 +34,7 @@ namespace LtAmpDotNet.Gui.Controls
 
             if (dialog.ShowDialog() == true && dialog.SelectedEffect?.FenderId != null)
             {
-                Amp.ReplaceNode(NodeIdType.delay, dialog.SelectedEffect.FenderId);
+                Amp.ReplaceNode(NodeIdType.mod, dialog.SelectedEffect.FenderId);
             }
         }
     }

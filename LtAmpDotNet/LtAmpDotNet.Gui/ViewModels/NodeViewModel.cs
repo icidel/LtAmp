@@ -18,7 +18,7 @@ namespace LtAmpDotNet.Gui.ViewModels
             DisplayName = currentNode.Definition.DisplayName;
             Parameters = new ObservableCollection<ParameterViewModel>();
 
-            if (currentNode.Definition.Ui.UiParameters != null)
+            if (currentNode?.Definition?.Ui?.UiParameters != null)
             {
                 foreach (var uiParam in currentNode.Definition.Ui.UiParameters)
                 {

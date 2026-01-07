@@ -5,38 +5,22 @@
              xmlns:selectors="clr-namespace:LtAmpDotNet.Gui.Selectors"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <DataTemplate x:Key="ValueTemplate">
-            <StackPanel Orientation="Horizontal" AutomationProperties.Name=" ">
-                <TextBlock x:Uid="ValueLabel" Text="{Binding Name}" Name="ValueLabel" Width="100" VerticalAlignment="Center"/>
-                <TextBlock Text="{Binding CurrentValue, StringFormat={}{0:F2}}" Margin="5,0,0,0"/>
-                <TextBlock Text="{Binding ReferenceValue, StringFormat=(Ref: {0:F2})}" Margin="5,0,0,0" Foreground="Gray"/>
-            </StackPanel>
+        <DataTemplate x:Key="ValueTemplate" >
+            <TextBlock Text="{Binding CurrentValue, StringFormat={}{0:F2}}" Margin="5,0,0,0" FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}" />
         </DataTemplate>
         <DataTemplate x:Key="SliderTemplate">
-            <StackPanel Orientation="Horizontal" AutomationProperties.Name=" ">
-                <TextBlock x:Uid="SliderLabel" Text="{Binding Name}" Name="SliderLabel" Width="100" VerticalAlignment="Center"/>
-                <Slider AutomationProperties.LabeledBy="{Binding ElementName=SliderLabel}" Value="{Binding CurrentValue}" Minimum="{Binding Min}" Maximum="{Binding Max}" Width="200"/>
-                <TextBlock Text="{Binding CurrentValue, StringFormat={}{0:F2}}" Margin="5,0,0,0"/>
-                <TextBlock Text="{Binding ReferenceValue, StringFormat=(Ref: {0:F2})}" Margin="5,0,0,0" Foreground="Gray"/>
-            </StackPanel>
+            <Slider Value="{Binding CurrentValue}" Minimum="0" Maximum="1" Ticks="{Binding Interval}" IsSnapToTickEnabled="True" Width="200" FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}"/>
         </DataTemplate>
         <DataTemplate x:Key="ComboBoxTemplate">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Name}" Width="100" VerticalAlignment="Center"/>
-                <ComboBox ItemsSource="{Binding ListItems}" SelectedValue="{Binding CurrentValue}" Width="200"/>
-                <TextBlock Text="{Binding ReferenceValue, StringFormat=(Ref: {0})}" Margin="5,0,0,0" Foreground="Gray"/>
-            </StackPanel>
+            <ComboBox ItemsSource="{Binding ListItems}" SelectedValue="{Binding CurrentValue}" Width="200" FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}"/>
         </DataTemplate>
         <DataTemplate x:Key="CheckBoxTemplate">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Name}" Width="100" VerticalAlignment="Center"/>
-                <CheckBox IsChecked="{Binding CurrentValue}"/>
-                <TextBlock Text="{Binding ReferenceValue, StringFormat=(Ref: {0})}" Margin="5,0,0,0" Foreground="Gray"/>
-            </StackPanel>
+            <CheckBox IsChecked="{Binding CurrentValue}" FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}"/>
         </DataTemplate>
 
         <selectors:ParameterTemplateSelector x:Key="ParameterTemplateSelector" x:Name="_"
-                                             SliderTemplate="{StaticResource ValueTemplate}"
+                                             ValueTemplate="{StaticResource ValueTemplate}"
+                                             SliderTemplate="{StaticResource SliderTemplate}"
                                              ComboBoxTemplate="{StaticResource ComboBoxTemplate}"
                                              CheckBoxTemplate="{StaticResource CheckBoxTemplate}"/>
     </Application.Resources>

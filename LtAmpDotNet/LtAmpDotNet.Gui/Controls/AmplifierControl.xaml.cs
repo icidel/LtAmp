@@ -30,9 +30,9 @@ namespace LtAmpDotNet.Gui.Controls
                 Owner = Window.GetWindow(this)
             };
 
-            if (dialog.ShowDialog() == true && dialog.SelectedEffect?.FenderId != null)
+            if (dialog.ShowDialog() == true && dialog.SelectedEffect.FenderId != null)
             {
-                Amp.ReplaceNode(NodeIdType.delay, dialog.SelectedEffect.FenderId);
+                Amp.ReplaceNode(NodeIdType.amp, dialog.SelectedEffect.FenderId);
             }
         }
     }
