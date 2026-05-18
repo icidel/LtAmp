@@ -17,13 +17,13 @@
             <StackPanel Orientation="Vertical" Margin="10">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Preset Number:" FontWeight="Bold" Margin="0,0,5,0"/>
-                    <TextBlock Focusable="True" x:Name="PresetNumberText" Text="--"/>
+                    <TextBlock Focusable="True" x:Name="PresetNumberText" Text="--" AutomationProperties.Name="Preset Number"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                     <TextBlock Text="Preset Name:" FontWeight="Bold" Margin="0,0,5,0"/>
-                    <TextBlock Focusable="True" x:Name="PresetNameText" Text="--"/>
+                    <TextBlock Focusable="True" x:Name="PresetNameText" Text="--" AutomationProperties.Name="Preset Name"/>
                 </StackPanel>
-                <TabControl Margin="0,10,0,0">
+                                                <TabControl Margin="0,10,0,0">
                     <TabItem Header="Amplifier">
                         <controls:AmplifierControl x:Name="AmplifierControlView"/>
                     </TabItem>
