@@ -8,23 +8,23 @@
                 <DataTemplate x:Key="SliderTemplate">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding Name}" Margin="0,0,5,0" Width="100" VerticalAlignment="Center"/>
-                <Slider Value="{Binding CurrentValue}" Minimum="{Binding Min}" Maximum="{Binding Max}" Width="200" VerticalAlignment="Center" AutomationProperties.Name="{Binding Name}"/>
-                <TextBlock Text="{Binding CurrentValue, StringFormat={}{0:F2}}" Margin="5,0,0,0" VerticalAlignment="Center" AutomationProperties.Name="{Binding Name, StringFormat='{} Current Value'}"/>
-                <TextBlock Text="{Binding ReferenceValue, StringFormat=(Ref: {0:F2})}" Margin="5,0,0,0" Foreground="Gray" VerticalAlignment="Center" AutomationProperties.Name="{Binding Name, StringFormat='{} Reference Value'}"/>
+                <Slider Value="{Binding CurrentValue}" Minimum="{Binding Min}" Maximum="{Binding Max}" Width="200" VerticalAlignment="Center" AutomationProperties.Name="{Binding Name}" AutomationProperties.HelpText="Use left and right arrow keys to adjust value" TabIndex="0"/>
+                <TextBlock Text="{Binding CurrentValue, StringFormat={}{0:F2}}" Margin="5,0,0,0" VerticalAlignment="Center" AutomationProperties.Name="{Binding Name, StringFormat='{}{0} Current Value'}"/>
+                <TextBlock Text="{Binding ReferenceValue, StringFormat=(Ref: {0:F2})}" Margin="5,0,0,0" Foreground="Gray" VerticalAlignment="Center" AutomationProperties.Name="{Binding Name, StringFormat='{}{0} Reference Value'}"/>
             </StackPanel>
         </DataTemplate>
                 <DataTemplate x:Key="ComboBoxTemplate">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding Name}" Margin="0,0,5,0" Width="100" VerticalAlignment="Center"/>
-                <ComboBox ItemsSource="{Binding ListItems}" SelectedValue="{Binding CurrentValue}" Width="200" VerticalAlignment="Center" AutomationProperties.Name="{Binding Name}"/>
-                <TextBlock Text="{Binding ReferenceValue, StringFormat=(Ref: {0})}" Margin="5,0,0,0" Foreground="Gray" VerticalAlignment="Center" AutomationProperties.Name="{Binding Name, StringFormat='{} Reference Value'}"/>
+                <ComboBox ItemsSource="{Binding ListItems}" SelectedValue="{Binding CurrentValue}" Width="200" VerticalAlignment="Center" AutomationProperties.Name="{Binding Name}" AutomationProperties.HelpText="Use up and down arrow keys to select option" TabIndex="0"/>
+                <TextBlock Text="{Binding ReferenceValue, StringFormat=(Ref: {0})}" Margin="5,0,0,0" Foreground="Gray" VerticalAlignment="Center" AutomationProperties.Name="{Binding Name, StringFormat='{}{0} Reference Value'}"/>
             </StackPanel>
         </DataTemplate>
                 <DataTemplate x:Key="CheckBoxTemplate">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding Name}" Margin="0,0,5,0" Width="100" VerticalAlignment="Center"/>
-                <CheckBox IsChecked="{Binding CurrentValue}" VerticalAlignment="Center" AutomationProperties.Name="{Binding Name}"/>
-                <TextBlock Text="{Binding ReferenceValue, StringFormat=(Ref: {0})}" Margin="5,0,0,0" Foreground="Gray" VerticalAlignment="Center" AutomationProperties.Name="{Binding Name, StringFormat='{} Reference Value'}"/>
+                <CheckBox IsChecked="{Binding CurrentValue}" VerticalAlignment="Center" AutomationProperties.Name="{Binding Name}" AutomationProperties.HelpText="Press space to toggle" TabIndex="0"/>
+                <TextBlock Text="{Binding ReferenceValue, StringFormat=(Ref: {0})}" Margin="5,0,0,0" Foreground="Gray" VerticalAlignment="Center" AutomationProperties.Name="{Binding Name, StringFormat='{}{0} Reference Value'}"/>
             </StackPanel>
         </DataTemplate>
 
