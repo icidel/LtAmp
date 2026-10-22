@@ -11,7 +11,7 @@
             <TextBlock Focusable="true" Text="{Binding DisplayName}" FontWeight="Bold" FontSize="16"/>
             <ItemsControl ItemsSource="{Binding Parameters}"
                           ItemTemplateSelector="{StaticResource ParameterTemplateSelector}"
-                          Margin="0,10,0,0">
+                          Margin="0,10,0,0" AutomationProperties.Name="{Binding DisplayName, StringFormat='{} Parameters'}">
                 <ItemsControl.ItemContainerStyle>
                     <Style TargetType="ContentPresenter">
                         <Setter Property="HorizontalAlignment" Value="Stretch"/>
